@@ -10,6 +10,9 @@ app.use(express.json()); // allows access to req.body
 const postsController = require('./controllers/posts_controller.js')
 app.use('/posts', postsController)
 
+const usersController = require('./controllers/users_controller.js')
+app.use('/users', usersController)
+
 
 
 app.listen(PORT, () => {
