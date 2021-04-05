@@ -9,7 +9,9 @@ sessions.get('/new', async(req, res) => {
             `SELECT username FROM usernames WHERE username='${req.body.username}';`
         )
         console.log(foundUser.rows[0]["username"]);
-        res.send(req.session.currentUser)
+        res.render('newUser.ejs', {
+            currentUser: req.session.currentUser
+        })
     } catch (err) {
         console.error(err.message);
     }

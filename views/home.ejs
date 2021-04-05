@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <% for (let post of allPosts) { %>
+        <div>
+            <br/>
+            Username: <%=post.username%>
+            <br/>
+            <%=post.image%>
+            <br/>
+            Description: <%=post.description%>
+            <br/>
+            Likes: <%=post.likes%>
+        </div>
+        <% } %>
+    </body>
+</html>
