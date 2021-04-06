@@ -56,7 +56,7 @@ posts.put('/:id', async(req, res) => {
 })
 
 // delete a post
-posts.delete('/posts/:id', async(req, res) => {
+posts.delete('/:id', async(req, res) => {
     try {
         const { id } = req.params;
         const deletePost = await pool.query("DELETE FROM posts WHERE post_id = $1", [id])
