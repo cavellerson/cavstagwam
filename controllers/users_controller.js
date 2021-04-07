@@ -9,7 +9,7 @@ users.get('/new', (req, res) => {
     //     currentUser: req.session.currentUser
     // }
 )
-    console.log(`logging req.session.current user:  ${req.session.currentUser}`);
+    // console.log(`logging req.session.current user:  ${req.session.currentUser}`);
 })
 
 users.post('/new', async(req, res) => {
@@ -19,7 +19,8 @@ users.post('/new', async(req, res) => {
         const newUser = await pool.query(
             "INSERT INTO usernames (username, password) VALUES ($1, $2) RETURNING *", [req.body.username, req.body.password]
         )
-
+        res.redirect('/users/new')
+        console.log(newUser.rows[0]);
 
 
         // console.log(req.body.username,password);
