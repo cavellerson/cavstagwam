@@ -5,20 +5,14 @@ const pool = require("../db.js")
 
 
 sessions.get('/login', async(req, res) => {
-    // try {
-        // const foundUser = await pool.query(
-        //     `SELECT username FROM usernames WHERE username='${req.body.username}';`
-        // )
-        // console.log(foundUser.rows[0]["username"]);
-        // console.log(req.session.currentUser);
+        // console.log("current user:" ,req.body.username);
         res.render('loginUser.ejs',
         {
-            currentUser: req.session.currentUser
+            currentUser: req.session.currentUser,
+            username: req.body.username
         }
         )
-    // } catch (err) {
-    //     console.error(err.message);
-    // }
+
 
 })
 
@@ -26,14 +20,14 @@ sessions.post('/login', async(req, res) => {
     const queryData = await pool.query(
         `SELECT * FROM usernames WHERE username='${req.body.username}'`
     )
-    console.log(`QueryData: ${JSON.stringify(queryData["rows"])}`);
-    console.log("current user:",req.session);
+    // console.log(`QueryData: ${JSON.stringify(queryData["rows"])}`);
+    // console.log("current user:",req.session);
 
     const queryUserData = await pool.query(
         `SELECT username FROM usernames WHERE username='${req.body.username}'`
     )
     const foundUsername = queryUserData["rows"][0]["username"]
-    console.log(`found username: ${foundUsername}`);
+    // console.log(`found username: ${foundUsername}`);
 
     const queryPasswordData = await pool.query(
         `SELECT password FROM usernames WHERE username='${req.body.username}'`
@@ -46,9 +40,11 @@ sessions.post('/login', async(req, res) => {
         res.send('Sorry user not found')
     }
     if (bcrypt.compareSync(req.body.password, foundPassword)) {
-        console.log("passwords match");
+        // console.log("passwords match");
         req.session.currentUser = [foundUsername, foundPassword]
         res.redirect('/posts')
+    } else {
+        res.redirect('/sessions/login')
     }
 })
 

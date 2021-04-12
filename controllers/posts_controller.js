@@ -15,14 +15,18 @@ posts.use(isAuthenticated)
 
 //create a posts
 posts.get('/create', isAuthenticated, (req, res) => {
-    res.render('createPost.ejs')
+    console.log(req.body.username);
+    res.render('createPost.ejs',
+    {
+        username: req.session.currentUser[0]
+    })
 })
-posts.post('/create', async(req, res) => {
+posts.post('/create', isAuthenticated, async(req, res) => {
     try {
 
         let { description } = req.body
-        let { username } = req.body
-        let { likes } = req.body
+        let { username } = req.session.currentUser[0]
+        let { likes } = 0
         let { image } = req.body
         console.log(`req.body: ${JSON.stringify(req.body)}`);
         const newPost = await pool.query(
@@ -42,9 +46,11 @@ posts.post('/create', async(req, res) => {
 posts.get('/', isAuthenticated, async(req, res) => {
     try {
         const post = await pool.query("SELECT * FROM posts;")
-        console.log(post.rows);
+        // console.log(post.rows);
+        console.log(req.session.currentUser[0]);
         res.render('home.ejs', {
-            allPosts: post.rows
+            allPosts: post.rows,
+            username: req.session.currentUser[0]
         })
     }
     catch (err) {
