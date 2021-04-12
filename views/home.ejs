@@ -5,6 +5,7 @@
         <title></title>
     </head>
     <body>
+
         <% for (let post of allPosts) { %>
         <div>
             <br/>
@@ -17,5 +18,9 @@
             Likes: <%=post.likes%>
         </div>
         <% } %>
+
+        <form class="" action="sessions?_method=DELETE" method="post">
+            <input type="submit" name="" value="Log Out">
+        </form>
     </body>
 </html>

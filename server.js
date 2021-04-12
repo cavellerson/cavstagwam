@@ -24,6 +24,14 @@ app.use(methodOverride('_method'))
 // app.use(express.cookieParser(process.env.SECRET));
 // app.use(express.session());
 
+app.use(
+	session({
+		secret: "psswrd",
+		resave: false,
+		saveUninitialized: false,
+	})
+)
+
 const postsController = require('./controllers/posts_controller.js')
 app.use('/posts', postsController)
 

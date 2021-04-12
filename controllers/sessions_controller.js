@@ -3,22 +3,26 @@ const express = require('express')
 const sessions = express.Router()
 const pool = require("../db.js")
 
-sessions.get('/new', async(req, res) => {
-    try {
-        const foundUser = await pool.query(
-            `SELECT username FROM usernames WHERE username='${req.body.username}';`
-        )
-        console.log(foundUser.rows[0]["username"]);
-        res.render('newUser.ejs', {
+
+sessions.get('/login', async(req, res) => {
+    // try {
+        // const foundUser = await pool.query(
+        //     `SELECT username FROM usernames WHERE username='${req.body.username}';`
+        // )
+        // console.log(foundUser.rows[0]["username"]);
+        // console.log(req.session.currentUser);
+        res.render('loginUser.ejs',
+        {
             currentUser: req.session.currentUser
-        })
-    } catch (err) {
-        console.error(err.message);
-    }
+        }
+        )
+    // } catch (err) {
+    //     console.error(err.message);
+    // }
 
 })
 
-sessions.post('/', async(req, res) => {
+sessions.post('/login', async(req, res) => {
     const queryData = await pool.query(
         `SELECT * FROM usernames WHERE username='${req.body.username}'`
     )
@@ -44,9 +48,14 @@ sessions.post('/', async(req, res) => {
     if (bcrypt.compareSync(req.body.password, foundPassword)) {
         console.log("passwords match");
         req.session.currentUser = [foundUsername, foundPassword]
+        res.redirect('/posts')
     }
 })
 
-
+sessions.delete('/', (req, res) => {
+    req.session.destroy(() => {
+        res.redirect('/sessions/login')
+    })
+})
 
 module.exports = sessions;

@@ -2,8 +2,19 @@ const bcrypt = require('bcrypt')
 const express = require('express')
 const posts = express.Router()
 const pool = require("../db")
+
+const isAuthenticated = (req, res, next) => {
+    if (req.session.currentUser) {
+        return next()
+    } else {
+        res.redirect('/sessions/new')
+    }
+}
+
+posts.use(isAuthenticated)
+
 //create a posts
-posts.get('/create', (req, res) => {
+posts.get('/create', isAuthenticated, (req, res) => {
     res.render('createPost.ejs')
 })
 posts.post('/create', async(req, res) => {
@@ -28,7 +39,7 @@ posts.post('/create', async(req, res) => {
 })
 
 // get all posts
-posts.get('/', async(req, res) => {
+posts.get('/', isAuthenticated, async(req, res) => {
     try {
         const post = await pool.query("SELECT * FROM posts;")
         console.log(post.rows);
@@ -43,7 +54,7 @@ posts.get('/', async(req, res) => {
 })
 
 // update a post
-posts.put('/:id', async(req, res) => {
+posts.put('/:id', isAuthenticated, async(req, res) => {
     try {
         const { id } = req.params
         const { description } = req.body
@@ -56,7 +67,7 @@ posts.put('/:id', async(req, res) => {
 })
 
 // delete a post
-posts.delete('/:id', async(req, res) => {
+posts.delete('/:id', isAuthenticated, async(req, res) => {
     try {
         const { id } = req.params;
         const deletePost = await pool.query("DELETE FROM posts WHERE post_id = $1", [id])
