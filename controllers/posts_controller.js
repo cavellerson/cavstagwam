@@ -25,8 +25,8 @@ posts.post('/create', isAuthenticated, async(req, res) => {
     try {
 
         let { description } = req.body
-        let { username } = req.session.currentUser[0]
-        let { likes } = 0
+        let username = req.session.currentUser[0]
+        let likes = 0
         let { image } = req.body
         console.log(`req.body: ${JSON.stringify(req.body)}`);
         const newPost = await pool.query(

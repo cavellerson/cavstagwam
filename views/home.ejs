@@ -6,12 +6,15 @@
     </head>
     <body>
         hi, <%=username%>!
+
+        <a href="/posts/create">Create Post</a>
         <% for (let post of allPosts) { %>
         <div>
             <br/>
             Username: <%=post.username%>
             <br/>
-            <%=post.image%>
+            <img src="<%=post.image%>" alt="<%=post.image%>">
+
             <br/>
             Description: <%=post.description%>
             <br/>
