@@ -62,7 +62,7 @@ posts.get('/', isAuthenticated, async(req, res) => {
 posts.get(`/:username`, isAuthenticated, async(req, res) => {
     try {
         const queryData = await pool.query("SELECT * FROM posts WHERE username = $1",[req.params.username])
-        
+
         let allPosts = queryData["rows"]
         console.log(allPosts);
         res.render('userProfile.ejs', {
