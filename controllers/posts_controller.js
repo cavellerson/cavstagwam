@@ -46,10 +46,13 @@ posts.post('/create', isAuthenticated, async(req, res) => {
 posts.get('/', isAuthenticated, async(req, res) => {
     try {
         const post = await pool.query("SELECT * FROM posts;")
-        console.log(post.rows.reverse());
-        console.log(req.session.currentUser[0]);
+
+        let allPosts = post.rows.reverse();
+        // console.log(allPosts);
+        // console.log(req.session.currentUser[0]);
+
         res.render('home.ejs', {
-            allPosts: post.rows.reverse(),
+            allPosts: allPosts,
             username: req.session.currentUser[0]
         })
     }
