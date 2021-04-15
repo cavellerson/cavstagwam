@@ -19,7 +19,7 @@ users.post('/new', async(req, res) => {
         const newUser = await pool.query(
             "INSERT INTO usernames (username, password) VALUES ($1, $2) RETURNING *", [req.body.username, req.body.password]
         )
-        res.redirect('/users/new')
+        res.redirect('/sessions/login')
         console.log(newUser.rows[0]);
 
 
