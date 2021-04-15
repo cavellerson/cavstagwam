@@ -41,6 +41,9 @@ app.use('/users', usersController)
 const sessionsController = require('./controllers/sessions_controller.js')
 app.use('/sessions', sessionsController)
 
+app.get('/', (req, res) => {
+	res.redirect('/sessions/login')
+})
 
 app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`)
