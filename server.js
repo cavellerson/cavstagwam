@@ -26,7 +26,7 @@ app.use(methodOverride('_method'))
 
 app.use(
 	session({
-		secret: "psswrd",
+		secret: process.env.SECRET,
 		resave: false,
 		saveUninitialized: false,
 	})
