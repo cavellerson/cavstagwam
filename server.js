@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const methodOverride = require('method-override')
-const PORT = 3000;
+const PORT = process.env.PORT || 5000;
 const cors = require("cors");
 const pool = require("./db")
 const session = require('express-session')
