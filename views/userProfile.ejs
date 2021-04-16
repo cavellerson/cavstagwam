@@ -8,9 +8,17 @@
     <body>
         <a href="/posts">Home</a>
         <% for (let post of allPosts) { %>
+            <% if (username === currentUser) { %>
+                <a href="/posts/<%=currentUser%>/<%=post.post_id%>/edit">Edit me</a>
+
+            <% } %>
+
+
+
             <img src="<%=post.image%>" alt="<%=post.image%>">
             <br>
             <%=post.description%>
+
         <% } %>
     </body>
 </html>

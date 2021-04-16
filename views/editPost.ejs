@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+
+        Edit Your Post
+        <br>
+        <img src="<%=post.image%>" alt="">
+        <form
+         action="/posts/<%=post.post_id%>?_method=PUT"  method="POST">
+            <input type="text" name="description" value="<%=post.description%>">
+            <input type="submit" name="" value="Done">
+        </form>
+
+        post id: <%=post.post_id%>
+
+    </body>
+</html>
