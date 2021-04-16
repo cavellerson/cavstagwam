@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title></title>
     </head>
+    <link rel="stylesheet" href="/styles.css">
     <body>
         hi, <a href="/posts/<%=username%>"><%=username%></a>
 
@@ -20,8 +21,11 @@
             <br/>
             <a href="/posts/<%=post.username%>"><%=post.username%></a>
             <br/>
-            <img src="<%=post.image%>" alt="<%=post.image%>">
+            <a href="/posts/<%=post.username%>/<%=post.post_id%>"><img src="<%=post.image%>" alt="<%=post.image%>">
+            </a>
 
+            <br>
+            post id: <%=post.post_id%>
             <br/>
             Description: <%=post.description%>
             <br/>

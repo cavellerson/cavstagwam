@@ -77,6 +77,23 @@ posts.get(`/:username`, isAuthenticated, async(req, res) => {
     }
 })
 
+// view a post by post_id
+
+posts.get('/:username/:id', isAuthenticated, async(req, res) => {
+    try {
+        const postID = req.params.id
+        const queryData = await pool.query("SELECT * FROM posts WHERE post_id = $1", [postID])
+        // console.log(queryData);
+        const post = queryData["rows"][0]
+        console.log(post);
+        res.render('postPage.ejs',{
+            post: post
+        })
+    } catch (err) {
+        console.error(err.message)
+    }
+})
+
 // update a post
 posts.put('/:id', isAuthenticated, async(req, res) => {
     try {
