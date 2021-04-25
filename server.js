@@ -41,6 +41,9 @@ app.use('/users', usersController)
 const sessionsController = require('./controllers/sessions_controller.js')
 app.use('/sessions', sessionsController)
 
+const followersController = require('./controllers/following_controller.js')
+app.use('/follow', followersController)
+
 app.get('/', (req, res) => {
 	res.redirect('/sessions/login')
 })

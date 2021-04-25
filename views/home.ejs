@@ -9,6 +9,13 @@
         hi, <a href="/posts/<%=username%>"><%=username%></a>
 
 
+        <input list="browsers" name="browser" placeholder="search..." id="browser">
+
+        <datalist action="/posts/" method="GET" id="browsers">
+            <% for (let username of allUsernames) { %>
+                <option value="<%=username%>"></option>
+            <% } %>
+        </datalist>
 
         <a href="/posts/create">Create Post</a>
 

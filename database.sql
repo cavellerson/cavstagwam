@@ -13,3 +13,8 @@ CREATE TABLE usernames (
     username VARCHAR(255),
     password VARCHAR(255)
 );
+
+CREATE TABLE followers (
+    username VARCHAR(255),
+    following VARCHAR(255)
+);

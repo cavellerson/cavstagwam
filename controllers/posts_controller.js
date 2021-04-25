@@ -7,7 +7,7 @@ const isAuthenticated = (req, res, next) => {
     if (req.session.currentUser) {
         return next()
     } else {
-        res.redirect('/sessions/new')
+        res.redirect('/sessions/login')
     }
 }
 
@@ -50,10 +50,18 @@ posts.get('/', isAuthenticated, async(req, res) => {
         let allPosts = post.rows.reverse();
         // console.log(allPosts);
         // console.log(req.session.currentUser[0]);
-
+        const queryUsersData = await pool.query("SELECT * FROM usernames;")
+        // console.log(queryUsersData["rows"]);
+        let allUsernames = []
+        for (let index in queryUsersData["rows"]) {
+            // allUsernames.push(queryUsersData["rows"][index]["username"])
+            allUsernames.push(queryUsersData["rows"][index]["username"])
+        }
+        // console.log("allusernames: ", allUsernames);
         res.render('home.ejs', {
             allPosts: allPosts,
-            username: req.session.currentUser[0]
+            username: req.session.currentUser[0],
+            allUsernames: allUsernames
         })
     }
     catch (err) {
@@ -133,6 +141,8 @@ posts.put('/:id', isAuthenticated, async(req, res) => {
         console.error(message)
     }
 })
+
+
 
 // delete a post
 posts.delete('/:id', isAuthenticated, async(req, res) => {
