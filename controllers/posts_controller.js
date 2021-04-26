@@ -36,39 +36,13 @@ posts.post('/create', isAuthenticated, async(req, res) => {
 
         // console.log(req.body.username, description, likes, image);
 
-        res.redirect('/posts')
+        res.redirect('/feed/explore')
     } catch (err) {
         console.error(err.message);
     }
 })
 
-// get all posts
-posts.get('/', isAuthenticated, async(req, res) => {
-    try {
-        const post = await pool.query("SELECT * FROM posts;")
 
-        let allPosts = post.rows.reverse();
-        // console.log(allPosts);
-        // console.log(req.session.currentUser[0]);
-        const queryUsersData = await pool.query("SELECT * FROM usernames;")
-        // console.log(queryUsersData["rows"]);
-        let allUsernames = []
-        for (let index in queryUsersData["rows"]) {
-            // allUsernames.push(queryUsersData["rows"][index]["username"])
-            allUsernames.push(queryUsersData["rows"][index]["username"])
-        }
-        // console.log("allusernames: ", allUsernames);
-        res.render('home.ejs', {
-            allPosts: allPosts,
-            username: req.session.currentUser[0],
-            allUsernames: allUsernames
-        })
-    }
-    catch (err) {
-        console.error(err.message);
-    }
-
-})
 
 posts.get(`/:username`, isAuthenticated, async(req, res) => {
     try {
@@ -150,7 +124,7 @@ posts.put('/:id', isAuthenticated, async(req, res) => {
         const description = req.body.description
         const updatePost = await pool.query("UPDATE posts SET description = $1 WHERE post_id = $2", [description, id])
         console.log("post was updated");
-        res.redirect('/posts')
+        res.redirect('/feed/explore')
     }
     catch (err) {
         console.error(message)
