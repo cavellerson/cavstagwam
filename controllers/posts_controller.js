@@ -77,11 +77,26 @@ posts.get(`/:username`, isAuthenticated, async(req, res) => {
         let allPosts = queryData["rows"]
         // console.log(allPosts);
         // console.log(req.session.currentUser[0]);
+        const checkIfFollowed = await pool.query("SELECT * FROM followers WHERE username=$1 AND following = $2", [req.session.currentUser[0], req.params.username])
+        // console.log(checkIfFollowed["rows"]);
+        // 0 render follow button
+        // 1 render unfollow button
+        // 2 render nothing
+        let whichButtonToRender;
+        if (req.session.currentUser[0] === req.params.username) {
+            whichButtonToRender = 2;
+        } else if (checkIfFollowed["rows"].length > 0) {
+            whichButtonToRender = 1;
+        } else if (checkIfFollowed["rows"].length === 0) {
+            whichButtonToRender = 0;
+        }
+
 
         res.render('userProfile.ejs', {
             username: req.params.username,
             allPosts,
             currentUser: req.session.currentUser[0],
+            whichButtonToRender: whichButtonToRender
 
         })
     } catch (err) {

@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt')
 const express = require('express')
-const followers = express.Router()
+const unfollows = express.Router()
 const pool = require("../db")
 
 const isAuthenticated = (req, res, next) => {
@@ -11,9 +11,11 @@ const isAuthenticated = (req, res, next) => {
     }
 }
 
-followers.use(isAuthenticated)
+unfollows.use(isAuthenticated)
 
-followers.post('/action/:username', isAuthenticated, async(req, res) => {
+
+
+unfollows.delete('/:username', isAuthenticated, async(req, res) => {
     try {
         let username = req.session.currentUser[0]
         let followingUser = req.params.username
@@ -21,13 +23,14 @@ followers.post('/action/:username', isAuthenticated, async(req, res) => {
         const queryData = await pool.query(
             "SELECT * FROM followers WHERE username = $1", [username]
         )
-        console.log(queryData["rows"]);
+        // console.log(queryData["rows"]);
 
 
-        const newFollow = await pool.query(
-            "INSERT INTO followers (username, following) VALUES($1,$2) RETURNING *", [username, followingUser]
+        const newUnfollow = await pool.query(
+            "DELETE FROM followers WHERE username=$1 AND following=$2", [username, followingUser]
         )
-        res.redirect(`/posts/${followingUser}`)
+
+        res.redirect(`/posts/${req.params.username}`)
     } catch (err) {
         console.error(err.message)
     }
@@ -35,4 +38,4 @@ followers.post('/action/:username', isAuthenticated, async(req, res) => {
 
 
 
-module.exports = followers;
+module.exports = unfollows;

@@ -21,10 +21,25 @@
 
         <% } %>
 
-        <form action="/follow/<%=username%>" method="POST"
-        >
-            <input type="Submit" name="" value="Follow">
-        </form>
+
+        <% if (whichButtonToRender === 2) { %>
+
+        <% } else if (whichButtonToRender === 1) { %>
+            <form action="/unfollow/<%=username%>?_method=DELETE" method="POST">
+                <input type="Submit" name="" value="Unfollow">
+            </form>
+        <% } else if (whichButtonToRender === 0) { %>
+            <form action="/follow/action/<%=username%>" method="POST"
+            >
+                <input type="Submit" name="" value="Follow">
+            </form>
+        <% } %>
+
+
+
+
+
+
 
     </body>
 </html>
