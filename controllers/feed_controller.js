@@ -20,14 +20,26 @@ feeds.get('/home', isAuthenticated, async(req, res) => {
         const queryFeedPosts = await pool.query("SELECT * FROM followers WHERE username = $1", [req.session.currentUser[0]])
         // console.log(queryFeedPosts["rows"]);
         let posts = [];
-        for (let follower of queryFeedPosts["rows"]) {
-            // console.log(follower["following"]);
 
-            const postsOfFollowedUsers = await pool.query("SELECT * FROM posts WHERE username = $1", [follower["following"]])
-            // console.log(postsOfFollowedUsers["rows"]);
-            posts.push(postsOfFollowedUsers["rows"])
-            console.log(posts);
+        for (let rowData of queryFeedPosts["rows"]) {
+
+            const followedPost = await pool.query("SELECT * FROM posts WHERE username = $1", [rowData["following"]])
+
+            // console.log(followedPost);
+            // console.log(rowData["following"]);
+            // console.log(followedPost["rows"]);
+            // posts.push(followedPost["rows"])
+            for (let post of followedPost["rows"]) {
+                posts.push(post)
+            }
+            // posts.push(followedPost["rows"])
+
         }
+        res.render('homeFeed.ejs', {
+            posts: posts
+        })
+
+
     } catch (err) {
         console.error(err.message)
     }
