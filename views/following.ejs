@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <h1>People that <%=currentUser%> are following </h1>
+        <% for (let follower of followerList) { %>
+            <a href="/posts/<%=follower%>"><%=follower%></a>
+        <% } %>
+    </body>
+</html>

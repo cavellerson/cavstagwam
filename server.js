@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const methodOverride = require('method-override')
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 const cors = require("cors");
 const pool = require("./db")
 const session = require('express-session')
@@ -49,6 +49,9 @@ app.use('/unfollow', unfollowsController)
 
 const feedsController = require('./controllers/feed_controller.js')
 app.use('/feed', feedsController)
+
+const followersListController = require('./controllers/followersList_controller.js')
+app.use('/list', followersListController)
 
 app.get('/', (req, res) => {
 	res.redirect('/sessions/login')
