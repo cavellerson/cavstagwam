@@ -15,13 +15,13 @@ followers.use(isAuthenticated)
 
 followers.post('/action/:username', isAuthenticated, async(req, res) => {
     try {
-        
+
         let followingUser = req.params.username
 
         const queryData = await pool.query(
             "SELECT * FROM followers WHERE username = $1", [username]
         )
-        console.log(queryData["rows"]);
+        // console.log(queryData["rows"]);
 
 
         const newFollow = await pool.query(
