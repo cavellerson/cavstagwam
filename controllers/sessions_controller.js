@@ -42,7 +42,7 @@ sessions.post('/login', async(req, res) => {
     if (bcrypt.compareSync(req.body.password, foundPassword)) {
         // console.log("passwords match");
         req.session.currentUser = [foundUsername, foundPassword]
-        res.redirect('/feed/home')
+        res.redirect('/')
     } else {
         res.redirect('/sessions/login')
     }

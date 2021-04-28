@@ -56,6 +56,9 @@ app.use('/list', listsController)
 const commentsController = require('./controllers/comments_controller.js')
 app.use('/comments', commentsController)
 
+const homeController = require('./controllers/home_controller.js')
+app.use('', homeController)
+
 app.get('/', (req, res) => {
 	res.redirect('/sessions/login')
 })

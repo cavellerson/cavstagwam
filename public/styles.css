@@ -1,3 +1,92 @@
-img {
+@import url('http://fonts.cdnfonts.com/css/billabong');
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    font-size: 2vw;
+    border-top: 1px rgba(219,219,219,1) solid;
+    border-bottom: 1px rgba(219,219,219,1) solid;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    margin-bottom: 1vw;
+    height: 6vh;
+    background-color: rgba(255,255,255,1)
+}
+
+ul {
+    list-style-type: none;
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-around;
+    margin: 1vw;
+
+}
+
+#instagram {
+    font-family: 'Billabong', sans-serif;
+    color: black;
+}
+
+#instagram, .navgation>li {
+    margin: 1vw;
+
+}
+
+a {
+    list-style-type: none;
+    text-decoration: none;
+}
+ion-icon {
+    color: black;
+    margin: 0 1vw 0 0;
+}
+
+body {
+    margin-top: 10vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.postBox {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: auto;
+    border: 1px solid rgba(219,219,219,1);
     width: 50%;
+    margin-top: 5vh;
+}
+
+/* a>img {
+    width: 100%;
+} */
+
+#username, #likes {
+    margin-left: 1vw;
+    color: black;
+    font-weight: 600;
+}
+
+#username:hover,#likes:hover {
+    text-decoration: underline;
+}
+
+.postDescription {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.commentBox {
+    width: 100%;
+}
+
+#postImage {
+    width: 100%;
 }

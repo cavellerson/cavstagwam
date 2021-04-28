@@ -3,17 +3,33 @@
     <head>
         <meta charset="utf-8">
         <title></title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="/styles.css">
     </head>
     <body>
+        <%- include ('./partials/header.ejs') %>
         <% for (let post of posts) { %>
-            <a href="/posts/<%=post.username%>"><%=post.username%></a>
-            <br>
-            <a href="/posts/<%=post.username%>"/<%=post.post_id%>><img src="<%=post.image%>" alt="<%=post.image%>">
-            </a>
+            <div class="postBox">
+                <div class="postHead">
+                    <a href="/<%=post.username%>"><%=post.username%></a>
+                </div>
+                <div class="postBody">
+                    <a href="/<%=post.username%>"/<%=post.post_id%>>
+                        <img
+                        id="postImage" src="<%=post.image%> alt="<%=post.image%>">
+                    </a>
+                </div>
+                <div class="postDescription">
+                    <a id="likes" href="#"><%=post.likes%> likes</a>
+                    <div class="mainDescription">
+                        <a id="username" href="/<%=post.username%>"><%=post.username%></a>
+                        <%=post.description%>
+                    </div>
 
-            <br>
-            <%=post.description%>
-            <br>
+                </div>
+            </div>
+
         <% } %>
     </body>
 </html>
