@@ -39,6 +39,7 @@ lists.get('/following/:username', isAuthenticated, async(req, res) => {
 
         // console.log(obtainingFollowersList["rows"]);
         let followingList = []
+        
         for (let user of obtainingFollowingList["rows"]) {
             followingList.push(user["following"])
         }
