@@ -37,13 +37,12 @@ lists.get('/following/:username', isAuthenticated, async(req, res) => {
     try {
         const obtainingFollowingList = await pool.query("SELECT * FROM followers WHERE username = $1", [req.params.username])
 
-        console.log(obtainingFollowersList["rows"]);
+        // console.log(obtainingFollowersList["rows"]);
         let followingList = []
-
         for (let user of obtainingFollowingList["rows"]) {
             followingList.push(user["following"])
         }
-        // console.log(followingList);
+        console.log(followingList);
         res.render('following.ejs', {
             followingList: followingList,
             username: req.params.username
