@@ -43,7 +43,7 @@ posts.post('/create', isAuthenticated, async(req, res) => {
 })
 
 
-
+//shows user profile
 posts.get(`/:username`, isAuthenticated, async(req, res) => {
     try {
         const queryData = await pool.query("SELECT * FROM posts WHERE username = $1",[req.params.username])
@@ -64,6 +64,17 @@ posts.get(`/:username`, isAuthenticated, async(req, res) => {
         } else if (checkIfFollowed["rows"].length === 0) {
             whichButtonToRender = 0;
         }
+
+        // checks how many people the user is following
+
+        const obtainingFollowingList = await pool.query("SELECT * FROM followers WHERE username = $1", [req.params.username])
+
+        let followingList = [];
+        for (let user of obtainingFollowingList) {
+            followingList.push(user["following"])
+        }
+
+
 
 
         res.render('userProfile.ejs', {

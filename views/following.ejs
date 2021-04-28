@@ -5,9 +5,9 @@
         <title></title>
     </head>
     <body>
-        <h1>People that <%=currentUser%> are following </h1>
-        <% for (let follower of followerList) { %>
-            <a href="/posts/<%=follower%>"><%=follower%></a>
+        <h1><%=username%> is following</h1>
+        <% for (let following of followingList) { %>
+            <a href="/posts/<%=following%>"><%=following%></a>
         <% } %>
     </body>
 </html>

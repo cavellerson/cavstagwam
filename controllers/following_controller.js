@@ -15,7 +15,7 @@ followers.use(isAuthenticated)
 
 followers.post('/action/:username', isAuthenticated, async(req, res) => {
     try {
-        let username = req.session.currentUser[0]
+        
         let followingUser = req.params.username
 
         const queryData = await pool.query(

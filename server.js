@@ -50,8 +50,8 @@ app.use('/unfollow', unfollowsController)
 const feedsController = require('./controllers/feed_controller.js')
 app.use('/feed', feedsController)
 
-const followersListController = require('./controllers/followersList_controller.js')
-app.use('/list', followersListController)
+const ListController = require('./controllers/List_controller.js')
+app.use('/list', ListController)
 
 app.get('/', (req, res) => {
 	res.redirect('/sessions/login')
