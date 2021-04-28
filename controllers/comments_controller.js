@@ -13,6 +13,7 @@ const isAuthenticated = (req, res, next) => {
 
 comments.use(isAuthenticated)
 
+// create a comment
 comments.post('/:postID', isAuthenticated, async(req, res) => {
     try {
         const post_id = parseInt(req.params.postID)
@@ -30,5 +31,7 @@ comments.post('/:postID', isAuthenticated, async(req, res) => {
 
 
 })
+
+//
 
 module.exports = comments;

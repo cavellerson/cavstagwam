@@ -61,6 +61,7 @@ feeds.get('/explore', isAuthenticated, async(req, res) => {
             allUsernames.push(queryUsersData["rows"][index]["username"])
         }
         // console.log("allusernames: ", allUsernames);
+
         res.render('explore.ejs', {
             allPosts: allPosts,
             username: req.session.currentUser[0],
