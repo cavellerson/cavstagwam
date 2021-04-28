@@ -38,6 +38,10 @@
             Description: <%=post.description%>
             <br/>
             Likes: <%=post.likes%>
+
+            <form class="" action="/comments/<%=post.post_id%>" method="POST">
+                <input type="text" name="comment" placeholder="Add a comment...">
+            </form>
         </div>
         <% } %>
 

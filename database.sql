@@ -18,3 +18,9 @@ CREATE TABLE followers (
     username VARCHAR(255),
     following VARCHAR(255)
 );
+
+CREATE TABLE comments (
+    username VARCHAR(255),
+    comment VARCHAR(255),
+    post_id INT
+);
