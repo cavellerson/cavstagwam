@@ -67,12 +67,12 @@ posts.get(`/:username`, isAuthenticated, async(req, res) => {
 
         // checks how many people the user is following
 
-        const obtainingFollowingList = await pool.query("SELECT * FROM followers WHERE username = $1", [req.params.username])
-
-        let followingList = [];
-        for (let user of obtainingFollowingList) {
-            followingList.push(user["following"])
-        }
+        // const obtainingFollowingList = await pool.query("SELECT * FROM followers WHERE username = $1", [req.params.username])
+        //
+        // let followingList = [];
+        // for (let user of obtainingFollowingList) {
+        //     followingList.push(user["following"])
+        // }
 
 
 

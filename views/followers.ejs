@@ -7,8 +7,11 @@
     <body>
         <h1><%=username%>'s followers</h1> %>
 
-        <% for (let follower of followersList) { %>
-            <a href="/posts/<%=follower%>"><%=follower%></a>
-        <% } %>
+
+            <% for (let follower of followersList) { %>
+                <a href="/posts/<%=follower%>"><%=follower%></a>
+            <% } %>
+
+
     </body>
 </html>
