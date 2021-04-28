@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt')
 const express = require('express')
-const List = express.Router()
+const lists = express.Router()
 const pool = require("../db")
 
 const isAuthenticated = (req, res, next) => {
@@ -11,9 +11,9 @@ const isAuthenticated = (req, res, next) => {
     }
 }
 
-List.use(isAuthenticated)
+lists.use(isAuthenticated)
 
-List.get('/followers/:username', isAuthenticated, async(req, res) => {
+lists.get('/followers/:username', isAuthenticated, async(req, res) => {
     try {
         const obtainingFollowersList = await pool.query("SELECT * FROM followers WHERE following = $1", [req.params.username])
 
@@ -33,7 +33,7 @@ List.get('/followers/:username', isAuthenticated, async(req, res) => {
     }
 })
 
-List.get('/following/:username', isAuthenticated, async(req, res) => {
+lists.get('/following/:username', isAuthenticated, async(req, res) => {
     try {
         const obtainingFollowingList = await pool.query("SELECT * FROM followers WHERE username = $1", [req.params.username])
 
@@ -52,4 +52,4 @@ List.get('/following/:username', isAuthenticated, async(req, res) => {
     }
 })
 
-module.exports = List;
+module.exports = lists;
