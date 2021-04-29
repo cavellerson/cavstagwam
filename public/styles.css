@@ -183,7 +183,7 @@ input {
     flex-direction: column;
     margin: auto;
     width: 75%;
-    
+
 }
 
 .profile-username {
@@ -222,4 +222,5 @@ input {
     justify-content: space-between;
     width: 100%;
     flex-wrap: wrap;
+
 }
