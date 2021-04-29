@@ -68,6 +68,7 @@ home.get('/profile', isAuthenticated, (req, res) => {
 home.get(`/:username`, isAuthenticated, async(req, res) => {
     try {
         //queries for data for posts made by req.params.username
+
         const queryData = await pool.query("SELECT * FROM posts WHERE username = $1",[req.params.username])
 
         let allPosts = queryData["rows"]
@@ -90,10 +91,12 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
         }
 
         // checks how many people the user is following
-
+        let followingList = []
+        let followersList = []
+        
         const obtainingFollowingList = await pool.query("SELECT * FROM followers WHERE username = $1", [req.params.username])
 
-        let followingList = []
+
         for (let user of obtainingFollowingList["rows"]) {
             followingList.push(user["following"])
         }
@@ -104,7 +107,6 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
         const obtainingFollowersList = await pool.query("SELECT * FROM followers WHERE following = $1", [req.params.username])
 
 
-        let followersList = []
 
         for (let follower of obtainingFollowersList["rows"]) {
             followersList.push(follower["username"])
@@ -118,14 +120,37 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
         // }
         // console.log(like);
 
+        //get followingList
+
+
+        // console.log(obtainingFollowersList["rows"]);
+
+        for (let user of obtainingFollowingList["rows"]) {
+            followingList.push(user["following"])
+        }
+
+        //get followersList
+
+
+        // console.log(obtainingFollowersList["rows"]);
+
+
+        for (let follower of obtainingFollowersList["rows"]) {
+            followersList.push(follower["username"])
+        }
+
+
+
         res.render('userProfile.ejs', {
             username: req.params.username,
-            allPosts,
+            allPosts: allPosts.reverse(),
             currentUser: req.session.currentUser[0],
             whichButtonToRender: whichButtonToRender,
             followerLength: followersListLength,
             followingLength: followingListLength,
-            postsLength: postsLength
+            postsLength: postsLength,
+            followersList: followersList,
+            followingList: followingList
 
         })
     } catch (err) {

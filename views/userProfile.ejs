@@ -40,11 +40,25 @@
                     </li>
 
                     <li>
-                        <a href="/list/followers/<%=username%>"><b><span><%=followerLength%></b> followers</span></a>
+                        <!-- <a class="modal-dialog modal-dialog-centered modal-dialog-scrollable" href="/list/followers/<%=username%>"><b><span><%=followerLength%></b> followers</span></a> -->
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <h1><%=username%>'s followers</h1> %>
+
+                                <% for (let follower of followersList) { %>
+                                    <a href="/<%=follower%>"><%=follower%></a>
+                                <% } %>
+                        </div>
                     </li>
 
                     <li>
-                        <a href="/list/following/<%=username%>"><span><b><%=followingLength%></b> following</span></a>
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <h1><%=username%> is following</h1>
+
+                                <% for (let following of followingList) { %>
+                                    <a href="/<%=following%>"><%=following%></a>
+                                <% } %>
+                        </div>
+                        <!-- <a href="/list/following/<%=username%>"><span><b><%=followingLength%></b> following</span></a> -->
                     </li>
 
                 </ul>
