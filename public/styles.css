@@ -12,7 +12,7 @@
     position: fixed;
     top: 0px;
     margin-bottom: 1vw;
-    height: 6vh;
+    height: 10vh;
     background-color: rgba(255,255,255,1)
 }
 
@@ -27,7 +27,7 @@ ul {
 
 }
 
-#instagram {
+#cavstagwam {
     font-family: 'Billabong', sans-serif;
     color: black;
 }
@@ -89,4 +89,42 @@ body {
 
 #postImage {
     width: 100%;
+}
+
+.createAccountBox {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border: 1px rgba(219,219,219,1) solid;
+    margin: auto;
+    text-align: center;
+    width: 40%;
+    padding: 1em;
+}
+
+
+
+.have-account {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    border: 1px
+    rgba(219,219,219,1) solid;
+    width: 100%;
+    padding: 0;
+}
+
+.mainbox {
+    padding: 2em;
+    margin-bottom: 5vh;
+}
+
+.signup-form>input {
+    margin-top: 2vh;
+}
+
+.have-account {
+    margin-top: 5vh;
+    width: 40%;
+    padding: 1em;
 }

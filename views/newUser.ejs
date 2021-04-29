@@ -8,15 +8,28 @@
         <link rel="stylesheet" href="/styles.css">
     </head>
     <body>
-        <%- include ('./partials/header.ejs') %>
+        <!-- <%- include ('./partials/header.ejs') %> -->
 
-        <h1>Create New User</h1>
-        <form method="post">
-            <input type="text" name="username" placeholder="enter username...">
-            <input type="password" name="password" placeholder="enter password...">
-            <input type="submit" value="Create Account">
-        </form>
+        <div class="createAccountBox">
 
-        <a href="/sessions/login">Login</a>
+                <h1 id="cavstagwam">Cavstagwam</h1>
+                <p>Sign up to see photos from your friends.</p>
+
+                <form class="signup-form" method="post">
+                    <input type="text" name="username" placeholder="Username">
+                    <br>
+                    <input type="password" name="password" placeholder="Password">
+                    <br>
+                    <input type="submit" value="Sign up">
+                </form>
+        </div>
+
+        <div class="have-account">
+            Have an account? <a href="/sessions/login">Log in</a>
+        </div>
+
+
+
+
     </body>
 </html>
