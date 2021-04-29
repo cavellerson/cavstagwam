@@ -20,12 +20,12 @@
 
                 <% } else if (whichButtonToRender === 1) { %>
                     <form action="/unfollow/<%=username%>?_method=DELETE" method="POST">
-                        <input type="Submit" name="" value="Unfollow">
+                        <input class="btn btn-outline-danger" type="Submit" name="" value="Unfollow">
                     </form>
                 <% } else if (whichButtonToRender === 0) { %>
                     <form action="/follow/action/<%=username%>" method="POST"
                     >
-                        <input type="Submit" name="" value="Follow">
+                        <input class="btn btn-outline-primary" type="Submit" name="" value="Follow">
                     </form>
                 <% } %>
             </div>
