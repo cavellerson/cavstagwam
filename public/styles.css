@@ -172,21 +172,18 @@ input {
 }
 
 .post-image {
-    max-width: 30%;
-}
-
-.all-post-images {
-    display: flex;
-    justify-content: space-around;
-    flex-direction: row;
     width: 100%;
 }
+
+
 
 .user-profile {
     display: flex;
     justify-content: center;
     flex-direction: column;
     margin: auto;
+    width: 75%;
+    
 }
 
 .profile-username {
@@ -209,4 +206,20 @@ input {
     text-decoration: none;
     text-decoration-style: none;
     color: black;
+}
+
+.user-post-box {
+    width: 30%;
+    margin: 1em;
+}
+
+.user-post-box>img {
+    width: 100%;
+}
+
+.all-posts {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
 }

@@ -10,6 +10,7 @@
 
     <body>
         <%- include ('./partials/header.ejs') %>
+
         <div class="user-profile">
             <h1 class="profile-username"><%=username%></h1>
 
@@ -44,30 +45,23 @@
 
 
 
-            <div class="all-post-images">
+            <div class="all-posts">
                 <% for (let post of allPosts) { %>
                     <% if (username === currentUser) { %>
-                        <a href="/posts/<%=currentUser%>/<%=post.post_id%>/edit">Edit me</a>
+                        <div class="user-post-box">
+
+
+                            <a href="/posts/<%=currentUser%>/<%=post.post_id%>/edit">Edit me</a>
 
                     <% } %>
 
-                    <img class="post-image" src="<%=post.image%>" alt="<%=post.image%>">
-
+                            <img class="post-image" src="<%=post.image%>" alt="<%=post.image%>">
+                        </div>
 
                 <% } %>
             </div>
 
         </div>
-
-
-
-
-
-
-
-
-
-
 
     </body>
 </html>
