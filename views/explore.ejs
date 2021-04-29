@@ -23,19 +23,22 @@
                 <a href="/posts/<%=post.username%>/<%=post.post_id%>"><img
                     id="postImage" src="<%=post.image%>" alt="<%=post.image%>">
                 </a>
-                <form class=""
-                action="/action/like/<%=post.username%>/<%=post.post_id%>?"
-                method="POST">
+                <% if (allLikes.includes(post.post_id)) { %>
+                    <form class=""
+                    action="/action/unlike/<%=post.username%>/<%=post.post_id%>?"
+                    method="POST">
+                        <button type="submit" name="button"
+                        class="unlike-button"><ion-icon name="heart-dislike"></ion-icon></button>
+                    </form>
+                <% } else { %>
+                    <form class=""
+                    action="/action/like/<%=post.username%>/<%=post.post_id%>?"
+                    method="POST">
 
-                    <button type="submit" name="button"><ion-icon class="like-button" name="heart-outline"></ion-icon></button>
+                        <button type="submit" name="button"><ion-icon class="like-button" name="heart-outline"></ion-icon></button>
 
-                </form>
-                <form class=""
-                action="/action/unlike/<%=post.username%>/<%=post.post_id%>?"
-                method="POST">
-                    <button type="submit" name="button"
-                    class="unlike-button"><ion-icon name="heart-dislike"></ion-icon></button>
-                </form>
+                    </form>
+                <% } %>
             </div>
             <div class="postDescription">
                 <a id="likes" href="#"><%=post.likes%> likes</a>

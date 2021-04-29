@@ -105,7 +105,7 @@ posts.delete('/:id', isAuthenticated, async(req, res) => {
     try {
         const { id } = req.params;
         const deletePost = await pool.query("DELETE FROM posts WHERE post_id = $1", [id])
-        res.json("Post was deleted")
+        res.redirect('/profile')
     }
     catch (err){
         console.error(err.message)

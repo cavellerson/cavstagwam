@@ -10,16 +10,24 @@
     <body>
         <%- include ('./partials/header.ejs') %>
 
-        Edit Your Post
-        <br>
-        <img src="<%=post.image%>" alt="">
-        <form
-         action="/posts/<%=post.post_id%>?_method=PUT"  method="POST">
-            <input type="text" name="description" value="<%=post.description%>">
-            <input type="submit" name="" value="Done">
-        </form>
+        <h3 class="greeting">Edit Your Post</h3>
 
-        post id: <%=post.post_id%>
-        
+        <div class="postBox">
+            <img id="postImage" src="<%=post.image%>" alt="">
+            <div class="editButtons">
+                <form
+                class="edit-post-form"
+                 action="/posts/<%=post.post_id%>?_method=PUT"  method="POST">
+                    <input class="editBox" type="text" name="description" value="<%=post.description%>">
+                    <input class="btn btn-outline-success" type="submit" name="" value="Done">
+                </form>
+
+                <form class="" action="/posts/<%=post.post_id%>?_method=DELETE" method="POST">
+                    <input class="btn btn-outline-danger" type="submit" name="" value="Delete Post">
+                </form>
+            </div>
+
+        </div>
+
     </body>
 </html>

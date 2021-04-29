@@ -36,11 +36,21 @@ home.get('/explore', isAuthenticated, async(req, res) => {
             allComments.push(comment)
         }
 
+        // check if user has liked the post
+        const queryCheckIfLiked = await pool.query("SELECT * FROM likes WHERE username = $1", [req.session.currentUser[0]])
+
+        let allLikes = []
+
+        for (let likeEntry of queryCheckIfLiked["rows"]) {
+            allLikes.push(likeEntry["post_id"])
+        }
+
         res.render('explore.ejs', {
             allPosts: allPosts,
             username: req.session.currentUser[0],
             allUsernames: allUsernames,
-            allComments: allComments
+            allComments: allComments,
+            allLikes: allLikes
         })
     }
     catch (err) {

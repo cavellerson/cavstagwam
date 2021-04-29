@@ -155,7 +155,7 @@ button {
 
 }
 
-.commentBox {
+.commentBox, .editBox {
     line-height: 2em;
 }
 
@@ -163,7 +163,7 @@ button {
     padding: 1em;
 }
 
-.create-post-form>input {
+.create-post-form>input, .edit-post-form>input {
     margin: .5em;
 }
 
@@ -256,4 +256,24 @@ input {
 
 #action-buttons {
     margin-top: 1em;
+}
+
+.editBox {
+    width: 100%;
+}
+
+.editButtons {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+    padding: 1em;
+}
+
+.editButtons>form>input {
+    width: 100%;
+}
+
+.editButtons>form {
+    margin: auto;
 }
