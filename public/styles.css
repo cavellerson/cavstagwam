@@ -128,3 +128,9 @@ body {
     width: 40%;
     padding: 1em;
 }
+
+button {
+    text-decoration: none;
+    border: none;
+    background-color: white;
+}

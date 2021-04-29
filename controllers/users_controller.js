@@ -20,7 +20,7 @@ users.post('/new', async(req, res) => {
             "INSERT INTO usernames (username, password) VALUES ($1, $2) RETURNING *", [req.body.username, req.body.password]
         )
         res.redirect('/sessions/login')
-        console.log(newUser.rows[0]);
+        // console.log(newUser.rows[0]);
 
 
         // console.log(req.body.username,password);

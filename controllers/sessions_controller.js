@@ -22,7 +22,7 @@ sessions.post('/login', async(req, res) => {
     )
     // console.log(`QueryData: ${JSON.stringify(queryData["rows"])}`);
     // console.log("current user:",req.session);
-    console.log(req.session);
+    // console.log(req.session);
     const queryUserData = await pool.query(
         `SELECT username FROM usernames WHERE username='${req.body.username}'`
     )

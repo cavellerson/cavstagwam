@@ -23,11 +23,25 @@
                 <div class="postDescription">
                     <a id="likes" href="#"><%=post.likes%> likes</a>
                     <div class="mainDescription">
+                        post_id: <%=post.post_id%>
+                        <br>
                         <a id="username" href="/<%=post.username%>"><%=post.username%></a>
                         <%=post.description%>
-                    </div>
 
+
+                    </div>
+                        <br>
+                        <% for (let comment of allComments) { %>
+                            <% if (comment.post_id === post.post_id) { %>
+                                post_id: <%=comment.post_id%>
+                                <a id="username" href="/<%= comment.username%>"><%= comment.username%></a> <%=comment.comment%>
+                            <% } %>
+                        <% } %>
+                        <form action="/comments/<%=post.post_id%>" method="POST">
+                            <input class="commentBox" type="text" name="comment" placeholder="Add a comment...">
+                        </form>
                 </div>
+
             </div>
 
         <% } %>

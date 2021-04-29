@@ -112,6 +112,7 @@ home.get('/', isAuthenticated, async(req, res) => {
         const queryFeedPosts = await pool.query("SELECT * FROM followers WHERE username = $1", [req.session.currentUser[0]])
         // console.log(queryFeedPosts["rows"]);
         let posts = [];
+        let allComments = []
 
         for (let rowData of queryFeedPosts["rows"]) {
 
@@ -121,15 +122,31 @@ home.get('/', isAuthenticated, async(req, res) => {
             // console.log(rowData["following"]);
             // console.log(followedPost["rows"]);
             // posts.push(followedPost["rows"])
+
             for (let post of followedPost["rows"]) {
-                posts.push(post)
+                posts.push(post);
+                console.log(post);
+                const queryComments = await pool.query("SELECT * FROM comments WHERE post_id = $1", [post.post_id] )
+
+                for (let comment of queryComments["rows"]) {
+                    allComments.push(comment)
+                    console.log(comment);
+                }
             }
+
+
+
+
             // posts.push(followedPost["rows"])
 
         }
+
         res.render('homeFeed.ejs', {
-            posts: posts
+            posts: posts,
+            allComments: allComments
         })
+        // console.log(posts);
+
 
 
     } catch (err) {
