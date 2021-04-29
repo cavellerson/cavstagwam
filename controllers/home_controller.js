@@ -69,13 +69,26 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
 
         // checks how many people the user is following
 
-        // const obtainingFollowingList = await pool.query("SELECT * FROM followers WHERE username = $1", [req.params.username])
-        //
-        // let followingList = [];
-        // for (let user of obtainingFollowingList) {
-        //     followingList.push(user["following"])
-        // }
+        const obtainingFollowingList = await pool.query("SELECT * FROM followers WHERE username = $1", [req.params.username])
 
+        let followingList = []
+        for (let user of obtainingFollowingList["rows"]) {
+            followingList.push(user["following"])
+        }
+
+        let followingListLength = followingList.length;
+
+        //get the number of followers
+        const obtainingFollowersList = await pool.query("SELECT * FROM followers WHERE following = $1", [req.params.username])
+
+
+        let followersList = []
+
+        for (let follower of obtainingFollowersList["rows"]) {
+            followersList.push(follower["username"])
+        }
+
+        let followersListLength = followersList.length
 
 
 
@@ -83,7 +96,9 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
             username: req.params.username,
             allPosts,
             currentUser: req.session.currentUser[0],
-            whichButtonToRender: whichButtonToRender
+            whichButtonToRender: whichButtonToRender,
+            followerLength: followersListLength,
+            followingLength: followingListLength
 
         })
     } catch (err) {

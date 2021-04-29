@@ -11,6 +11,11 @@
     <body>
         <%- include ('./partials/header.ejs') %>
 
+        <h1><%=username%></h1>
+
+        <a href="/list/followers/<%=username%>"><%=followerLength%> followers</a>
+        <a href="/list/following/<%=username%>"><%=followingLength%> following</a>
+
         <% for (let post of allPosts) { %>
             <% if (username === currentUser) { %>
                 <a href="/posts/<%=currentUser%>/<%=post.post_id%>/edit">Edit me</a>
