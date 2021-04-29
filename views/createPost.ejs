@@ -9,15 +9,20 @@
     <body>
         <%- include ('./partials/header.ejs') %>
 
-        <form class="" action="/posts/create/" method="POST">
+        <h3 class="greeting">Share your story</h3>
 
-            <input type="text"
-            placeholder="write a caption..." name="description" value="">
+        <div class="create-post-box">
+            <form class="create-post-form" action="/posts/create/" method="POST">
 
-            <input type="text"
-            placeholder="add image" name="image" value="">
+                <input type="text"
+                placeholder="write a caption..." name="description" value="">
 
-            <input type="submit" name="submit" value="create">
-        </form>
+                <input type="text"
+                placeholder="add image" name="image" value="">
+
+                <input type="submit" name="submit" value="Share">
+            </form>
+        </div>
+
     </body>
 </html>

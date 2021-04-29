@@ -10,39 +10,58 @@
 
     <body>
         <%- include ('./partials/header.ejs') %>
+        <div class="user-profile">
+            <h1 class="profile-username"><%=username%></h1>
 
-        <h1><%=username%></h1>
+            <% if (whichButtonToRender === 2) { %>
 
-        <a href="/list/followers/<%=username%>"><%=followerLength%> followers</a>
-        <a href="/list/following/<%=username%>"><%=followingLength%> following</a>
-
-        <% for (let post of allPosts) { %>
-            <% if (username === currentUser) { %>
-                <a href="/posts/<%=currentUser%>/<%=post.post_id%>/edit">Edit me</a>
-
+            <% } else if (whichButtonToRender === 1) { %>
+                <form action="/unfollow/<%=username%>?_method=DELETE" method="POST">
+                    <input type="Submit" name="" value="Unfollow">
+                </form>
+            <% } else if (whichButtonToRender === 0) { %>
+                <form action="/follow/action/<%=username%>" method="POST"
+                >
+                    <input type="Submit" name="" value="Follow">
+                </form>
             <% } %>
 
 
+                <ul class="username-info-box">
+                    <li>
+                        <b><%=postsLength%></b> posts
+                    </li>
 
-            <img src="<%=post.image%>" alt="<%=post.image%>">
-            <br>
-            <%=post.description%>
+                    <li>
+                        <a href="/list/followers/<%=username%>"><b><span><%=followerLength%></b> followers</span></a>
+                    </li>
 
-        <% } %>
+                    <li>
+                        <a href="/list/following/<%=username%>"><span><b><%=followingLength%></b> following</span></a>
+                    </li>
+
+                </ul>
 
 
-        <% if (whichButtonToRender === 2) { %>
 
-        <% } else if (whichButtonToRender === 1) { %>
-            <form action="/unfollow/<%=username%>?_method=DELETE" method="POST">
-                <input type="Submit" name="" value="Unfollow">
-            </form>
-        <% } else if (whichButtonToRender === 0) { %>
-            <form action="/follow/action/<%=username%>" method="POST"
-            >
-                <input type="Submit" name="" value="Follow">
-            </form>
-        <% } %>
+            <div class="all-post-images">
+                <% for (let post of allPosts) { %>
+                    <% if (username === currentUser) { %>
+                        <a href="/posts/<%=currentUser%>/<%=post.post_id%>/edit">Edit me</a>
+
+                    <% } %>
+
+                    <img class="post-image" src="<%=post.image%>" alt="<%=post.image%>">
+
+
+                <% } %>
+            </div>
+
+        </div>
+
+
+
+
 
 
 

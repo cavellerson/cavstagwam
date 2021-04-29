@@ -32,7 +32,7 @@
 
             </div>
 
-            <!-- post id: <%=post.post_id%> -->
+            <br>
             <% for (let comment of allComments) { %>
                 <% if (comment.post_id === post.post_id) { %>
                     <p><a id="username" href="/<%= comment.username%>"><%= comment.username%></a> <%=comment.comment%></p>
@@ -45,9 +45,7 @@
             </form>
         </div>
         <% } %>
-        <form class="" action="/sessions?_method=DELETE" method="post">
-            <input type="submit" name="" value="Log Out">
-        </form>
+
 
     </body>
 </html>

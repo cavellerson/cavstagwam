@@ -61,6 +61,8 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
         const queryData = await pool.query("SELECT * FROM posts WHERE username = $1",[req.params.username])
 
         let allPosts = queryData["rows"]
+
+        let postsLength = allPosts.length
         // console.log(allPosts);
         // console.log(req.session.currentUser[0]);
         const checkIfFollowed = await pool.query("SELECT * FROM followers WHERE username=$1 AND following = $2", [req.session.currentUser[0], req.params.username])
@@ -108,7 +110,8 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
             currentUser: req.session.currentUser[0],
             whichButtonToRender: whichButtonToRender,
             followerLength: followersListLength,
-            followingLength: followingListLength
+            followingLength: followingListLength,
+            postsLength: postsLength
 
         })
     } catch (err) {
