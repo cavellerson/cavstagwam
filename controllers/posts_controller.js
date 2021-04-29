@@ -36,7 +36,7 @@ posts.post('/create', isAuthenticated, async(req, res) => {
 
         // console.log(req.body.username, description, likes, image);
 
-        res.redirect('/feed/explore')
+        res.redirect('/explore')
     } catch (err) {
         console.error(err.message);
     }
