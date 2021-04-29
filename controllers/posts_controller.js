@@ -91,7 +91,7 @@ posts.put('/:id', isAuthenticated, async(req, res) => {
         const description = req.body.description
         const updatePost = await pool.query("UPDATE posts SET description = $1 WHERE post_id = $2", [description, id])
         // console.log("post was updated");
-        res.redirect('/feed/explore')
+        res.redirect('/explore')
     }
     catch (err) {
         console.error(message)
