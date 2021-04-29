@@ -237,3 +237,14 @@ input {
     border-top: 1px
     rgba(219,219,219,1) solid;
 }
+
+.like-button {
+    font-size: 2vw;
+    margin-left: 1vw;
+    padding: .5vh;
+}
+
+.like-button:hover {
+    color:red;
+
+}

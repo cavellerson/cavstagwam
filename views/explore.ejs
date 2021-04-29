@@ -23,11 +23,13 @@
                 <a href="/posts/<%=post.username%>/<%=post.post_id%>"><img
                     id="postImage" src="<%=post.image%>" alt="<%=post.image%>">
                 </a>
+                <ion-icon class="like-button" name="heart-outline"></ion-icon>
             </div>
             <div class="postDescription">
                 <a id="likes" href="#"><%=post.likes%> likes</a>
                 <div class="mainDescription">
                     <a id="username" href="/<%=post.username%>"><%=post.username%></a> <%=post.description%>
+
                 </div>
 
             </div>
@@ -46,6 +48,6 @@
         </div>
         <% } %>
 
-        
+
     </body>
 </html>
