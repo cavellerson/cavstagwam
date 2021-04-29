@@ -9,12 +9,42 @@
     </head>
     <body>
         <%- include ('./partials/header.ejs') %>
+        <div class="postBox">
+            <a class="postHead" id="username" href="/<%=post.username%>"><%=post.username%></a>
 
-        <a href="/<%=post.username%>"><%=post.username%></a>
-        <br>
-        <img src="<%=post.image%>" alt="">
-        <br>
-        <%=post.description%>
-    
+            <div class="postBody">
+                <img id="postImage" src="<%=post.image%>" alt="">
+                <% if (allLikes.includes(post.post_id)) { %>
+                    <form class=""
+                    action="/action/unlike/<%=post.username%>/<%=post.post_id%>?"
+                    method="POST">
+                        <button type="submit" name="button"
+                        class="unlike-button"><ion-icon name="heart-dislike"></ion-icon></button>
+                    </form>
+                <% } else { %>
+                    <form class=""
+                    action="/action/like/<%=post.username%>/<%=post.post_id%>?"
+                    method="POST">
+
+                        <button type="submit" name="button"><ion-icon class="like-button" name="heart-outline"></ion-icon></button>
+
+                    </form>
+                <% } %>
+                <div class="mainDescription">
+                    <h5><a id="username" href="/<%=post.username%>"><%=post.username%></a>
+                    <%=post.description%></h5>
+                </div>
+                <% for (let comment of allComments) { %>
+                    <p><a id="username" href="/<%= comment.username%>"><%= comment.username%></a> <%=comment.comment%></p>
+                <% } %>
+                <form action="/comments/<%=post.post_id%>" method="POST">
+                    <input class="commentBox" type="text" name="comment" placeholder="Add a comment...">
+                </form>
+
+            </div>
+
+        </div>
+
+
     </body>
 </html>

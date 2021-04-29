@@ -27,7 +27,13 @@ posts.post('/create', isAuthenticated, async(req, res) => {
         let { description } = req.body
         let username = req.session.currentUser[0]
         let likes = 0
-        let { image } = req.body
+        let image;
+        if (req.body.image) {
+            let image = req.body.image
+        } else {
+            image = "https://cdn.shopify.com/s/files/1/0774/6999/products/FP_EPH_000013_WhosAwesome_large.jpg?v=1519230298"
+        }
+
         // console.log(`req.body: ${JSON.stringify(req.body)}`);
         const newPost = await pool.query(
             "INSERT INTO posts (description, username, likes, image) VALUES($1,$2,$3,$4) RETURNING *", [description, username, likes, image]
@@ -36,7 +42,7 @@ posts.post('/create', isAuthenticated, async(req, res) => {
 
         // console.log(req.body.username, description, likes, image);
 
-        res.redirect('/explore')
+        res.redirect('/profile')
     } catch (err) {
         console.error(err.message);
     }
@@ -52,10 +58,29 @@ posts.get('/:username/:id', isAuthenticated, async(req, res) => {
         const postID = req.params.id
         const queryData = await pool.query("SELECT * FROM posts WHERE post_id = $1", [postID])
         // console.log(queryData);
+
+
         const post = queryData["rows"][0]
-        console.log(post);
+        // console.log(post);
+        let allComments = []
+        const queryComments = await pool.query("SELECT * FROM comments WHERE post_id = $1",[req.params.id])
+        for (let entry of queryComments["rows"]) {
+            allComments.push(entry)
+        }
+        // console.log(allComments);
+
+        const queryCheckIfLiked = await pool.query("SELECT * FROM likes WHERE username = $1", [req.session.currentUser[0]])
+
+        let allLikes = []
+
+        for (let likeEntry of queryCheckIfLiked["rows"]) {
+            allLikes.push(likeEntry["post_id"])
+        }
+
         res.render('postPage.ejs',{
-            post: post
+            post: post,
+            allComments: allComments,
+            allLikes: allLikes
         })
     } catch (err) {
         console.error(err.message)
@@ -90,8 +115,10 @@ posts.put('/:id', isAuthenticated, async(req, res) => {
         const id = req.params.id
         const description = req.body.description
         const updatePost = await pool.query("UPDATE posts SET description = $1 WHERE post_id = $2", [description, id])
+
         // console.log("post was updated");
-        res.redirect('/explore')
+        res.redirect('/profile');
+
     }
     catch (err) {
         console.error(message)
@@ -104,7 +131,13 @@ posts.put('/:id', isAuthenticated, async(req, res) => {
 posts.delete('/:id', isAuthenticated, async(req, res) => {
     try {
         const { id } = req.params;
+
         const deletePost = await pool.query("DELETE FROM posts WHERE post_id = $1", [id])
+
+        const deleteLikes = await pool.query("DELETE FROM likes WHERE post_id = $1", [id])
+
+        const deleteComments = await pool.query("DELETE FROM comments WHERE post_id = $1", [id])
+
         res.redirect('/profile')
     }
     catch (err){

@@ -22,7 +22,8 @@ comments.post('/:postID', isAuthenticated, async(req, res) => {
 
         const newComment = await pool.query("INSERT INTO comments (username, comment, post_id) VALUES($1,$2,$3)", [username, comment, post_id])
         // console.log(`post_id: ${post_id}\n username: ${username} \n comment: ${comment}`);
-        res.redirect('/')
+        res.redirect('back');
+
 
     } catch (err) {
         console.error(err.message)

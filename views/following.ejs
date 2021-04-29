@@ -10,12 +10,15 @@
     <body>
         <%- include ('./partials/header.ejs') %>
 
-        <h1><%=username%> is following</h1>
+        <h1 class="greeting"><%=username%> is following</h1>
 
             <% for (let following of followingList) { %>
-                <a href="/<%=following%>"><%=following%></a>
+                <div class="list">
+                    <a id="username" href="/<%=following%>"><%=following%></a>
+                </div>
+
             <% } %>
 
-    
+
     </body>
 </html>
