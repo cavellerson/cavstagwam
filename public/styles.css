@@ -5,7 +5,7 @@
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-    font-size: 2vw;
+    font-size: 5vh;
     border-top: 1px rgba(219,219,219,1) solid;
     border-bottom: 1px rgba(219,219,219,1) solid;
     width: 100%;
@@ -14,6 +14,10 @@
     margin-bottom: 1vw;
     height: 10vh;
     background-color: rgba(255,255,255,1)
+}
+
+.header>a, .header>ul>li {
+    height: 100%;
 }
 
 ul {
@@ -30,6 +34,7 @@ ul {
 #cavstagwam {
     font-family: 'Billabong', sans-serif;
     color: black;
+    padding: .5rem;
 }
 
 #instagram, .navgation>li {
@@ -63,9 +68,9 @@ body {
     margin-top: 5vh;
 }
 
-/* a>img {
-    width: 100%;
-} */
+.postHead {
+    padding: .5em;
+}
 
 #username, #likes {
     margin-left: 1vw;
@@ -89,6 +94,7 @@ body {
 
 #postImage {
     width: 100%;
+    max-height: 50%;
 }
 
 .createAccountBox, .loginAccountBox {
@@ -98,7 +104,7 @@ body {
     border: 1px rgba(219,219,219,1) solid;
     margin: auto;
     text-align: center;
-    width: 40%;
+    width: 30%;
     padding: 1em;
 }
 
@@ -125,7 +131,7 @@ body {
 
 .have-account, .dont-have-account {
     margin-top: 5vh;
-    width: 40%;
+    width: 30%;
     padding: 1em;
 }
 .login-form>input {

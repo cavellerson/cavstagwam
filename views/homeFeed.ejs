@@ -12,7 +12,7 @@
         <% for (let post of posts) { %>
             <div class="postBox">
                 <div class="postHead">
-                    <a href="/<%=post.username%>"><%=post.username%></a>
+                    <a id="username" href="/<%=post.username%>"><%=post.username%></a>
                 </div>
                 <div class="postBody">
                     <a href="/posts/<%=post.username%>/<%=post.post_id%>">
@@ -23,18 +23,14 @@
                 <div class="postDescription">
                     <a id="likes" href="#"><%=post.likes%> likes</a>
                     <div class="mainDescription">
-                        post_id: <%=post.post_id%>
-                        <br>
-                        <a id="username" href="/<%=post.username%>"><%=post.username%></a>
-                        <%=post.description%>
-
+                        <h5><a id="username" href="/<%=post.username%>"><%=post.username%></a>
+                        <%=post.description%></h5>
 
                     </div>
                         <br>
                         <% for (let comment of allComments) { %>
                             <% if (comment.post_id === post.post_id) { %>
-        
-                                <a id="username" href="/<%= comment.username%>"><%= comment.username%></a> <%=comment.comment%>
+                                <p><a id="username" href="/<%= comment.username%>"><%= comment.username%></a> <%=comment.comment%></p>
                             <% } %>
                         <% } %>
                         <form action="/comments/<%=post.post_id%>" method="POST">

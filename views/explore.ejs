@@ -31,8 +31,12 @@
 
             </div>
 
-            post id: <%=post.post_id%>
-
+            <!-- post id: <%=post.post_id%> -->
+            <% for (let comment of allComments) { %>
+                <% if (comment.post_id === post.post_id) { %>
+                    <p><a id="username" href="/<%= comment.username%>"><%= comment.username%></a> <%=comment.comment%></p>
+                <% } %>
+            <% } %>
 
 
             <form action="/comments/<%=post.post_id%>" method="POST">

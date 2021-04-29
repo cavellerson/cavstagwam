@@ -28,10 +28,19 @@ home.get('/explore', isAuthenticated, async(req, res) => {
         }
         // console.log("allusernames: ", allUsernames);
 
+        // queries for the comments of the explore section (all posts)
+        let allComments = []
+        const queryAllCommentsData = await pool.query("SELECT * FROM comments;")
+        for (let comment of queryAllCommentsData["rows"]) {
+            // console.log(comment);
+            allComments.push(comment)
+        }
+
         res.render('explore.ejs', {
             allPosts: allPosts,
             username: req.session.currentUser[0],
-            allUsernames: allUsernames
+            allUsernames: allUsernames,
+            allComments: allComments
         })
     }
     catch (err) {
@@ -48,6 +57,7 @@ home.get('/profile', isAuthenticated, (req, res) => {
 //shows user profile
 home.get(`/:username`, isAuthenticated, async(req, res) => {
     try {
+        //queries for data for posts made by req.params.username
         const queryData = await pool.query("SELECT * FROM posts WHERE username = $1",[req.params.username])
 
         let allPosts = queryData["rows"]
@@ -125,12 +135,12 @@ home.get('/', isAuthenticated, async(req, res) => {
 
             for (let post of followedPost["rows"]) {
                 posts.push(post);
-                console.log(post);
+                // console.log(post);
                 const queryComments = await pool.query("SELECT * FROM comments WHERE post_id = $1", [post.post_id] )
 
                 for (let comment of queryComments["rows"]) {
                     allComments.push(comment)
-                    console.log(comment);
+                    // console.log(comment);
                 }
             }
 
