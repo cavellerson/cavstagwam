@@ -47,8 +47,9 @@
 
             <div class="all-posts">
                 <% for (let post of allPosts) { %>
+                    <div class="user-post-box">
                     <% if (username === currentUser) { %>
-                        <div class="user-post-box">
+
 
 
                             <a href="/posts/<%=currentUser%>/<%=post.post_id%>/edit">Edit me</a>
