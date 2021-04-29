@@ -188,6 +188,7 @@ input {
 
 .profile-username {
     margin: auto;
+    text-align: center;
 }
 
 
@@ -238,7 +239,7 @@ input {
     rgba(219,219,219,1) solid;
 }
 
-.like-button {
+.like-button, .unlike-button {
     font-size: 2vw;
     margin-left: 1vw;
     padding: .5vh;
@@ -246,5 +247,13 @@ input {
 
 .like-button:hover {
     color:red;
+}
 
+.like-form {
+    display: flex;
+    justify-content: center;
+}
+
+#action-buttons {
+    margin-top: 1em;
 }

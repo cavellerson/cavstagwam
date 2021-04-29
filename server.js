@@ -59,6 +59,9 @@ app.use('/comments', commentsController)
 const homeController = require('./controllers/home_controller.js')
 app.use('', homeController)
 
+const likesController = require('./controllers/likes_controller.js')
+app.use('/action', likesController)
+
 app.get('/', (req, res) => {
 	res.redirect('/sessions/login')
 })

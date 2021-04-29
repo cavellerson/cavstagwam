@@ -103,6 +103,10 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
         let followersListLength = followersList.length
 
 
+        // for (let like of queryCheckIfLiked["rows"]) {
+        //     allLikes.push(like)
+        // }
+        // console.log(like);
 
         res.render('userProfile.ejs', {
             username: req.params.username,
@@ -154,9 +158,27 @@ home.get('/', isAuthenticated, async(req, res) => {
 
         }
 
+        // check if user has liked the post
+        const queryCheckIfLiked = await pool.query("SELECT * FROM likes WHERE username = $1", [req.session.currentUser[0]])
+
+        let allLikes = []
+
+        for (let likeEntry of queryCheckIfLiked["rows"]) {
+            allLikes.push(likeEntry["post_id"])
+        }
+        // console.log(allLikes);
+
+        // if (allLikes.includes(post.post_id)) {
+        //     render dislike
+        // } else {
+        //     render like
+        // }
+
+
         res.render('homeFeed.ejs', {
             posts: posts,
-            allComments: allComments
+            allComments: allComments,
+            allLikes: allLikes
         })
         // console.log(posts);
 

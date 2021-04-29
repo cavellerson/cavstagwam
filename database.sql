@@ -24,3 +24,8 @@ CREATE TABLE comments (
     comment VARCHAR(255),
     post_id INT
 );
+
+CREATE TABLE likes (
+    username VARCHAR(255),
+    post_id INT
+);
