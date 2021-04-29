@@ -190,6 +190,7 @@ input {
     margin: auto;
 }
 
+
 .username-info-box, .username-info-box>a {
     display: flex;
     flex-direction: row;
@@ -222,5 +223,17 @@ input {
     justify-content: space-between;
     width: 100%;
     flex-wrap: wrap;
+}
 
+.top-profile {
+    margin: auto;
+}
+
+.dropdown-item {
+    font-size: 3vh;
+}
+
+#logout {
+    border-top: 1px
+    rgba(219,219,219,1) solid;
 }
