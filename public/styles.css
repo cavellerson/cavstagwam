@@ -146,3 +146,15 @@ button {
     border: none;
     background-color: white;
 }
+
+.greeting {
+    margin: auto;
+}
+
+.commentBox {
+    line-height: 2em;
+}
+
+.commentBox::placeholder {
+    padding: 1em;
+}
