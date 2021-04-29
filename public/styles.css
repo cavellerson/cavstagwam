@@ -91,7 +91,7 @@ body {
     width: 100%;
 }
 
-.createAccountBox {
+.createAccountBox, .loginAccountBox {
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -104,7 +104,7 @@ body {
 
 
 
-.have-account {
+.have-account, .dont-have-account {
     display: flex;
     justify-content: center;
     margin: auto;
@@ -119,16 +119,22 @@ body {
     margin-bottom: 5vh;
 }
 
-.signup-form>input {
+.signup-form>input,.login-form>input {
     margin-top: 2vh;
 }
 
-.have-account {
+.have-account, .dont-have-account {
     margin-top: 5vh;
     width: 40%;
     padding: 1em;
 }
-
+.login-form>input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    margin-top: 2vh;
+}
 button {
     text-decoration: none;
     border: none;
