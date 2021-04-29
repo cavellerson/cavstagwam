@@ -33,7 +33,7 @@
                         <br>
                         <% for (let comment of allComments) { %>
                             <% if (comment.post_id === post.post_id) { %>
-                                post_id: <%=comment.post_id%>
+        
                                 <a id="username" href="/<%= comment.username%>"><%= comment.username%></a> <%=comment.comment%>
                             <% } %>
                         <% } %>
