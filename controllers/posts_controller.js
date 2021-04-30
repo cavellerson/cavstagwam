@@ -27,12 +27,8 @@ posts.post('/create', isAuthenticated, async(req, res) => {
         let { description } = req.body
         let username = req.session.currentUser[0]
         let likes = 0
-        let image;
-        if (req.body.image) {
-            let image = req.body.image
-        } else {
-            image = "https://cdn.shopify.com/s/files/1/0774/6999/products/FP_EPH_000013_WhosAwesome_large.jpg?v=1519230298"
-        }
+        let image = req.body.image;
+        
 
         // console.log(`req.body: ${JSON.stringify(req.body)}`);
         const newPost = await pool.query(
