@@ -284,3 +284,9 @@ input {
     flex-direction: column;
     margin: auto;
 }
+
+.commentBox {
+    border: none;
+    border-top: 1px
+    rgba(219,219,219,1) solid;
+}
