@@ -14,7 +14,7 @@ home.use(isAuthenticated)
 // get all posts
 home.get('/explore', isAuthenticated, async(req, res) => {
     try {
-        const post = await pool.query("SELECT * FROM posts;")
+        const post = await pool.query("SELECT * FROM posts ORDER by post_id ASC;")
 
         let allPosts = post.rows.reverse();
         // console.log(allPosts);
@@ -137,13 +137,14 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
 home.get('/', isAuthenticated, async(req, res) => {
     try {
         const queryFeedPosts = await pool.query("SELECT * FROM followers WHERE username = $1", [req.session.currentUser[0]])
-        // console.log(queryFeedPosts["rows"]);
+
         let posts = [];
         let allComments = []
+        // console.log(queryFeedPosts["rows"]);
 
         for (let rowData of queryFeedPosts["rows"]) {
 
-            const followedPost = await pool.query("SELECT * FROM posts WHERE username = $1", [rowData["following"]])
+            const followedPost = await pool.query("SELECT * FROM posts WHERE username = $1 ORDER by post_id DESC", [rowData["following"]])
 
             // console.log(followedPost);
             // console.log(rowData["following"]);
@@ -151,7 +152,7 @@ home.get('/', isAuthenticated, async(req, res) => {
             // posts.push(followedPost["rows"])
 
             for (let post of followedPost["rows"]) {
-                posts.push(post);
+                posts.unshift(post);
                 // console.log(post);
                 const queryComments = await pool.query("SELECT * FROM comments WHERE post_id = $1", [post.post_id] )
 
@@ -184,6 +185,7 @@ home.get('/', isAuthenticated, async(req, res) => {
         //     render like
         // }
 
+        console.log(posts);
 
         res.render('homeFeed.ejs', {
             posts: posts,
