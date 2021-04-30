@@ -18,7 +18,7 @@ users.post('/new', async(req, res) => {
     try {
         req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
         const queryForUser = await pool.query("SELECT * FROM usernames WHERE username = $1", [req.body.username])
-        if (queryForUser["rows"]) {
+        if (queryForUser["rows"].includes(req.body.username)) {
             res.send("this username is taken, please try enter another username <a href='/users/new'>Go Back</a>")
             res.redirect('/users/new')
         } else {
