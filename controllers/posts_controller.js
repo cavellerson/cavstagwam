@@ -49,7 +49,7 @@ posts.post('/create', isAuthenticated, async(req, res) => {
                 const newPost = pool.query(
                     "INSERT INTO posts (description, username, likes, image) VALUES($1,$2,$3,$4) RETURNING *", [description, username, likes, imageLink]
                 )
-                console.log("right after newPost", result["url"]);
+
             } else {
                 // console.log(error);
                 console.log("this is error: ", error);
