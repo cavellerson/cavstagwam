@@ -18,15 +18,24 @@ users.post('/new', async(req, res) => {
     try {
         req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
         const queryForUser = await pool.query("SELECT * FROM usernames WHERE username = $1", [req.body.username])
-        if (queryForUser["rows"].includes(req.body.username)) {
-            res.send("this username is taken, please try enter another username <a href='/users/new'>Go Back</a>")
-            res.redirect('/users/new')
-        } else {
-            const newUser = await pool.query(
+
+
+        let users = [];
+        for (let entry of queryForUser["rows"]){
+            users.push(entry["username"]);
+        }
+        if (users.length === 0) {
+            const newUser = pool.query(
                 "INSERT INTO usernames (username, password) VALUES ($1, $2) RETURNING *", [req.body.username, req.body.password]
             )
             res.redirect('/sessions/login')
+            
+        } else if (users.length >= 1) {
+            res.send("this username is taken, please try enter another username <a href='/users/new'>Go Back</a>")
+            res.redirect('/users/new')
         }
+
+
 
 
         // console.log(newUser.rows[0]);
