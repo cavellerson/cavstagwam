@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt')
 const express = require('express')
 const posts = express.Router()
 const pool = require("../db")
+require('dotenv').config();
+const cloudinary = require("../cloudinary")
 
 const isAuthenticated = (req, res, next) => {
     if (req.session.currentUser) {
@@ -24,19 +26,36 @@ posts.get('/create', isAuthenticated, (req, res) => {
 posts.post('/create', isAuthenticated, async(req, res) => {
     try {
 
+
         let { description } = req.body
         let username = req.session.currentUser[0]
         let likes = 0
-        let image = req.body.image;
-        
 
-        // console.log(`req.body: ${JSON.stringify(req.body)}`);
-        const newPost = await pool.query(
-            "INSERT INTO posts (description, username, likes, image) VALUES($1,$2,$3,$4) RETURNING *", [description, username, likes, image]
-        )
-        // res.json(newPost.rows[0])
 
-        // console.log(req.body.username, description, likes, image);
+        let image = req.files.imgsrc.tempFilePath;
+
+
+
+        let imageLink;
+        // const newPost = await pool.query(
+        //     "INSERT INTO posts (description, username, likes, image) VALUES($1,$2,$3,$4) RETURNING *", [description, username, likes, imageLink]
+        // )
+
+
+        cloudinary.uploader.upload(image, (result, error) => {
+            if (result) {
+                imageLink = result["url"]
+                // console.log(description, username, likes, imageLink);
+                const newPost = pool.query(
+                    "INSERT INTO posts (description, username, likes, image) VALUES($1,$2,$3,$4) RETURNING *", [description, username, likes, imageLink]
+                )
+                console.log("right after newPost", result["url"]);
+            } else {
+                // console.log(error);
+                console.log("this is error: ", error);
+            }
+        })
+
 
         res.redirect('/profile')
     } catch (err) {

@@ -19,12 +19,6 @@ followers.post('/action/:username', isAuthenticated, async(req, res) => {
         let followingUser = req.params.username
         let username = req.session.currentUser[0]
 
-        // const queryData = await pool.query(
-        //     "SELECT * FROM followers WHERE username = $1", [username]
-        // )
-        // console.log(queryData["rows"]);
-
-
         const newFollow = await pool.query(
             "INSERT INTO followers (username, following) VALUES($1,$2) RETURNING *", [username, followingUser]
         )

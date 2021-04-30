@@ -12,17 +12,18 @@
         <h3 class="greeting">Share your story</h3>
 
         <div class="create-post-box">
-            <form class="create-post-form" action="/posts/create/" method="POST">
+            <form
+            enctype="multipart/form-data" class="create-post-form" 
+            action="/posts/create/" method="POST">
 
                 <input type="text"
                 placeholder="write a caption..." name="description" value="">
 
-                <input type="text"
-                placeholder="add image" name="image" value="">
+                <input id="imgsrc" name="imgsrc" type="file" accept="image/x-png,image/gif,image/jpeg,/image/jpg" name="image" value="image">
 
                 <input type="submit" name="submit" value="Share">
             </form>
         </div>
-        
+
     </body>
 </html>

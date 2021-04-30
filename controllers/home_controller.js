@@ -2,6 +2,7 @@ const express = require('express')
 const home = express.Router()
 const pool = require("../db")
 
+
 const isAuthenticated = (req, res, next) => {
     if (req.session.currentUser) {
         return next()
@@ -68,7 +69,7 @@ home.get('/profile', isAuthenticated, (req, res) => {
 home.get(`/:username`, isAuthenticated, async(req, res) => {
     try {
         //queries for data for posts made by req.params.username
-        const queryData = await pool.query("SELECT * FROM posts WHERE username = $1",[req.params.username])
+        const queryData = await pool.query("SELECT * FROM posts WHERE username = $1 ORDER by post_id DESC",[req.params.username])
 
         let allPosts = queryData["rows"]
 
@@ -162,11 +163,6 @@ home.get('/', isAuthenticated, async(req, res) => {
                 }
             }
 
-
-
-
-            // posts.push(followedPost["rows"])
-
         }
 
         // check if user has liked the post
@@ -177,13 +173,6 @@ home.get('/', isAuthenticated, async(req, res) => {
         for (let likeEntry of queryCheckIfLiked["rows"]) {
             allLikes.push(likeEntry["post_id"])
         }
-        // console.log(allLikes);
-
-        // if (allLikes.includes(post.post_id)) {
-        //     render dislike
-        // } else {
-        //     render like
-        // }
 
         console.log(posts);
 
@@ -192,7 +181,6 @@ home.get('/', isAuthenticated, async(req, res) => {
             allComments: allComments,
             allLikes: allLikes
         })
-        // console.log(posts);
 
 
 
@@ -200,6 +188,9 @@ home.get('/', isAuthenticated, async(req, res) => {
         console.error(err.message)
     }
 })
+
+
+
 
 
 
