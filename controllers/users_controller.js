@@ -2,10 +2,12 @@ const express = require('express')
 const bcrypt = require('bcrypt')
 const users = express.Router()
 const pool = require("../db.js")
-
+let displayUsernameMade = 0;
 
 users.get('/new', (req, res) => {
-    res.render('newUser.ejs')
+    res.render('newUser.ejs', {
+        displayUsernameMade: displayUsernameMade
+    })
     // console.log(res);
     // , {
     //     currentUser: req.session.currentUser
@@ -28,10 +30,13 @@ users.post('/new', async(req, res) => {
             const newUser = pool.query(
                 "INSERT INTO usernames (username, password) VALUES ($1, $2) RETURNING *", [req.body.username, req.body.password]
             )
+            displayUsernameMade = 1;
+
             res.redirect('/sessions/login')
-            
+
         } else if (users.length >= 1) {
-            res.send("this username is taken, please try enter another username <a href='/users/new'>Go Back</a>")
+            // res.send("this username is taken, please try enter another username <a href='/users/new'>Go Back</a>")
+            displayUsernameMade = 0;
             res.redirect('/users/new')
         }
 
