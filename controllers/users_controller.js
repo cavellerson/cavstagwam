@@ -31,7 +31,8 @@ users.post('/new', async(req, res) => {
                 "INSERT INTO usernames (username, password) VALUES ($1, $2) RETURNING *", [req.body.username, req.body.password]
             )
             displayUsernameMade = 1;
-
+            //whenever someone makes an account, they'll be automatically be following cavellerson so their home feed isn't empty
+            const userFollowCavellerson = await pool.query("INSERT INTO followers (username, following) VALUES($1, $2)",[req.body.username,'cavellerson'])
             res.redirect('/sessions/login')
 
         } else if (users.length >= 1) {
