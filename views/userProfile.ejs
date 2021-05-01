@@ -11,64 +11,71 @@
     <body>
         <%- include ('./partials/header.ejs') %>
 
+        <% if (renderPage) { %>
+            <div class="user-profile">
+                <div class="top-profile">
+                    <h1 class="profile-username"><%=username%></h1>
+                    <% if (whichButtonToRender === 2) { %>
 
-
-        <div class="user-profile">
-            <div class="top-profile">
-                <h1 class="profile-username"><%=username%></h1>
-                <% if (whichButtonToRender === 2) { %>
-
-                <% } else if (whichButtonToRender === 1) { %>
-                    <form class="like-form" action="/unfollow/<%=username%>?_method=DELETE" method="POST">
-                        <input id="action-buttons" class="btn btn-outline-danger" type="Submit" name="" value="Unfollow">
-                    </form>
-                <% } else if (whichButtonToRender === 0) { %>
-                    <form class="like-form" action="/follow/action/<%=username%>" method="POST"
-                    >
-                        <input id="action-buttons" class="btn btn-outline-primary" type="Submit" name="" value="Follow">
-                    </form>
-                <% } %>
-            </div>
-
-
+                    <% } else if (whichButtonToRender === 1) { %>
+                        <form class="like-form" action="/unfollow/<%=username%>?_method=DELETE" method="POST">
+                            <input id="action-buttons" class="btn btn-outline-danger" type="Submit" name="" value="Unfollow">
+                        </form>
+                    <% } else if (whichButtonToRender === 0) { %>
+                        <form class="like-form" action="/follow/action/<%=username%>" method="POST"
+                        >
+                            <input id="action-buttons" class="btn btn-outline-primary" type="Submit" name="" value="Follow">
+                        </form>
+                    <% } %>
+                </div>
 
 
 
-                <ul class="username-info-box">
-                    <li>
-                        <b><%=postsLength%></b> posts
-                    </li>
-
-                    <li>
-                        <a href="/list/followers/<%=username%>"><b><span><%=followerLength%></b> followers</span></a>
-                    </li>
-
-                    <li>
-                        <a href="/list/following/<%=username%>"><span><b><%=followingLength%></b> following</span></a>
-                    </li>
-
-                </ul>
 
 
+                    <ul class="username-info-box">
+                        <li>
+                            <b><%=postsLength%></b> posts
+                        </li>
 
-            <div class="all-posts">
-                <% for (let post of allPosts) { %>
-                    <div class="user-post-box">
-                    <% if (username === currentUser) { %>
+                        <li>
+                            <a href="/list/followers/<%=username%>"><b><span><%=followerLength%></b> followers</span></a>
+                        </li>
+
+                        <li>
+                            <a href="/list/following/<%=username%>"><span><b><%=followingLength%></b> following</span></a>
+                        </li>
+
+                    </ul>
 
 
 
-                            <a href="/posts/<%=currentUser%>/<%=post.post_id%>/edit"><ion-icon name="ellipsis-horizontal-outline"></ion-icon></a>
+                <div class="all-posts">
+                    <% for (let post of allPosts) { %>
+                        <div class="user-post-box">
+                        <% if (username === currentUser) { %>
+
+
+
+                                <a href="/posts/<%=currentUser%>/<%=post.post_id%>/edit"><ion-icon name="ellipsis-horizontal-outline"></ion-icon></a>
+
+                        <% } %>
+
+                                <img class="post-image" src="<%=post.image%>" alt="<%=post.image%>">
+                            </div>
 
                     <% } %>
+                </div>
 
-                            <img class="post-image" src="<%=post.image%>" alt="<%=post.image%>">
-                        </div>
-
-                <% } %>
+            </div>
+        <% } else { %>
+            <div class="greeting">
+                <h3>Sorry, this page isn't available.</h3>
+                <p>The link you followed may be broken, or the page may have been removed. <a href="/">Go back to cavstagwam.</a></p>
             </div>
 
-        </div>
+        <% } %>
+
 
     </body>
 </html>

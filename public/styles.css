@@ -77,7 +77,11 @@ body {
     color: black;
     font-weight: 600;
 }
-
+#likes {
+    display: flex;
+    width: 100%;
+    margin-right: 10vw;
+}
 #username:hover,#likes:hover {
     text-decoration: underline;
 }
@@ -289,4 +293,11 @@ input {
     border: none;
     border-top: 1px
     rgba(219,219,219,1) solid;
+}
+
+.list-of-people-who-liked {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+
 }
