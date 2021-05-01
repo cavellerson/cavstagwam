@@ -13,7 +13,28 @@
             <ul class="navigation">
                 <li><a href="/"><ion-icon name="home-outline"></ion-icon></a></li>
                 <li><a href="/explore"><ion-icon name="compass-outline"></ion-icon></a></li>
-                <li><a href="/posts/create"><ion-icon name="create-outline"></ion-icon></a></li>
+                <li>
+                    <div class="dropdown">
+                        <button
+                     type="button"
+                        id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        >
+                        <ion-icon name="create-outline"></ion-icon></a>
+                        </button>
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="/posts/create">Share via upload</a></li>
+                            <li><a class="dropdown-item" href="/posts/createv2">Share via image link </a></li>
+                        </ul>
+                    </div>
+
+                </li>
+
+
+
+
                 <li>
 
                     <div class="dropdown">

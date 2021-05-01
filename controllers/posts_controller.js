@@ -4,6 +4,8 @@ const posts = express.Router()
 const pool = require("../db")
 require('dotenv').config();
 const cloudinary = require("../cloudinary")
+const fetch = require('node-fetch')
+const axios = require('axios')
 
 const isAuthenticated = (req, res, next) => {
     if (req.session.currentUser) {
@@ -23,6 +25,14 @@ posts.get('/create', isAuthenticated, (req, res) => {
         username: req.session.currentUser[0]
     })
 })
+
+posts.get('/createv2', isAuthenticated, (req, res) => {
+    res.render('createPostv2.ejs',
+    {
+        username:req.session.currentUser[0]
+    })
+})
+
 posts.post('/create', isAuthenticated, async(req, res) => {
     try {
 
@@ -63,6 +73,47 @@ posts.post('/create', isAuthenticated, async(req, res) => {
     }
 })
 
+posts.post('/create/v2', isAuthenticated, async(req, res) => {
+    try {
+        let description = req.body.description
+        let username = req.session.currentUser[0]
+        let likes = 0
+
+        //checks if the url is a jpeg,jpg,gif or png
+        function checkURL(url) {
+            return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+        }
+        //creates randomimagelist to pick random images from (lorem ipsum site for images)
+        let randomImageList = [];
+        await axios.get('https://picsum.photos/v2/list?limit=100').then((response) => {
+            for (let object of response["data"]) {
+                randomImageList.push(object["url"])
+            }
+        }).catch((error) => {
+            console.log(error);
+        })
+
+        let imageLink;
+        const randomImage = 'https://picsum.photos/200/300?a'
+        if (checkURL(req.body.image)) {
+            console.log("image is good:", checkURL(req.body.image));
+            imageLink = req.body.image
+        } else {
+            imageLink = randomImage
+        }
+
+
+        const newPost = pool.query(
+            "INSERT INTO posts (description, username, likes, image) VALUES($1,$2,$3,$4) RETURNING *", [description, username, likes, imageLink]
+        )
+
+
+
+        res.redirect('/profile')
+    } catch (err) {
+        console.error(err.message)
+    }
+})
 
 
 
