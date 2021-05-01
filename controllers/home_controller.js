@@ -45,6 +45,9 @@ home.get('/explore', isAuthenticated, async(req, res) => {
         for (let likeEntry of queryCheckIfLiked["rows"]) {
             allLikes.push(likeEntry["post_id"])
         }
+        allPosts.sort((a, b) => {
+            return b.post_id - a.post_id;
+        });
 
         res.render('explore.ejs', {
             allPosts: allPosts,
@@ -165,6 +168,12 @@ home.get('/', isAuthenticated, async(req, res) => {
 
         }
 
+
+        posts.sort((a, b) => {
+            return b.post_id - a.post_id;
+        });
+        // console.log(posts);
+
         // check if user has liked the post
         const queryCheckIfLiked = await pool.query("SELECT * FROM likes WHERE username = $1", [req.session.currentUser[0]])
 
@@ -174,7 +183,6 @@ home.get('/', isAuthenticated, async(req, res) => {
             allLikes.push(likeEntry["post_id"])
         }
 
-        console.log(posts);
 
         res.render('homeFeed.ejs', {
             posts: posts,
