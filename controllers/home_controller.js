@@ -144,6 +144,8 @@ home.get('/', isAuthenticated, async(req, res) => {
             return b.post_id - a.post_id;
         });
 
+        console.log(listOfPostsUsersLiked);
+
         res.render('homeFeed.ejs', {
             posts: posts,
             allComments: allComments,

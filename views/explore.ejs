@@ -16,7 +16,9 @@
 
 
         <% for (let post of allPosts) { %>
+
         <div class="postBox">
+            first <%=post.post_id%>
             <div class="postHead">
                 <a id="username" href="/<%=post.username%>"><%=post.username%></a>
             </div>
@@ -41,33 +43,36 @@
                     </form>
                 <% } %>
             </div>
+            second <%=post.post_id%>
             <div class="postDescription">
                 <!-- Button trigger modal -->
-                <button type="button" id="likes" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <%=post.likes%> likes
-                </button>
-
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Likes</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                          <p class="list-of-people-who-liked">
-                              <% for (let entry of listOfPostsUsersLiked) { %>
-                              <% if (entry.post_id === post.post_id) { %>
-                                  <a href="/<%=entry.username%>"><%=entry.username%></a>
-
-                              <% } %>
-                          <% } %>
-                          </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+               <button type="button" id="likes" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                   third <%=post.post_id%>
+                   <br>
+                   <%=post.likes%> likes
+               </button>
+               <!-- Modal -->
+               <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                 <div class="modal-dialog">
+                     <%=post.post_id%>
+                   <div class="modal-content">
+                       fourth <%=post.post_id%>
+                     <div class="modal-header">
+                       <h5 class="modal-title" id="exampleModalLabel">Likes fifth <%=post.post_id%></h5>
+                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                     </div>
+                     <div class="modal-body">
+                         <p class="list-of-people-who-liked">
+                             <% for (let entry of listOfPostsUsersLiked) { %>
+                             <% if (entry.post_id === post.post_id) { %>
+                                 <a href="/<%=entry.username%>"><%=entry.username%></a>
+                             <% } %>
+                         <% } %>
+                         </p>
+                     </div>
+                   </div>
+                 </div>
+               </div>
 
 
 
