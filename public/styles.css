@@ -64,7 +64,7 @@ body {
     flex-direction: column;
     margin: auto;
     border: 1px solid rgba(219,219,219,1);
-    width: 50%;
+    width: 40%;
     margin-top: 5vh;
 }
 
@@ -72,7 +72,7 @@ body {
     padding: .5em;
 }
 
-#username, #likes {
+#username, #likes, #likes-list-username {
     margin-left: 1vw;
     color: black;
     font-weight: 600;
@@ -82,7 +82,7 @@ body {
     width: 100%;
     margin-right: 10vw;
 }
-#username:hover,#likes:hover {
+#username:hover,#likes:hover, #likes-list-username:hover {
     text-decoration: underline;
 }
 
@@ -306,4 +306,23 @@ input {
     display: flex;
     justify-content: space-around;
     flex-direction: column;
+}
+
+.modal-dialog {
+    pointer-events: all;
+}
+
+.usernameAndButton {
+    display: flex;
+    align-items: baseline;
+    JUSTIFY-CONTENT: space-between;
+}
+
+.modal-content {
+    width: 75%;
+}
+
+.modal-content, #likes-list-username {
+    margin-right: 10vw;
+    margin-bottom: 1em;
 }

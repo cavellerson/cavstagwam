@@ -60,8 +60,14 @@ home.get('/explore', isAuthenticated, async(req, res) => {
             return b.post_id - a.post_id;
         });
 
-        console.log(listOfPostsUsersLiked);
+        // console.log(listOfPostsUsersLiked);
+        let currentUserFollowList = []
+        const queryForPeopleIFollow = await pool.query("SELECT * FROM followers WHERE username = $1", [req.session.currentUser[0]])
 
+        for (let entry of queryForPeopleIFollow["rows"]) {
+            currentUserFollowList.push(entry["following"])
+        }
+        // console.log("people I follow", currentUserFollowList);
 
         res.render('explore.ejs', {
             allPosts: allPosts,
@@ -69,7 +75,9 @@ home.get('/explore', isAuthenticated, async(req, res) => {
             allUsernames: allUsernames,
             allComments: allComments,
             allLikes: allLikes,
-            listOfPostsUsersLiked: listOfPostsUsersLiked
+            listOfPostsUsersLiked: listOfPostsUsersLiked,
+            currentUserFollowList: currentUserFollowList,
+            currentUser: req.session.currentUser[0]
         })
     }
     catch (err) {
@@ -146,13 +154,25 @@ home.get('/', isAuthenticated, async(req, res) => {
             return b.post_id - a.post_id;
         });
 
-        console.log(listOfPostsUsersLiked);
+        // console.log(listOfPostsUsersLiked);
+
+
+        let currentUserFollowList = []
+        const queryForPeopleIFollow = await pool.query("SELECT * FROM followers WHERE username = $1", [req.session.currentUser[0]])
+
+        for (let entry of queryForPeopleIFollow["rows"]) {
+            currentUserFollowList.push(entry["following"])
+        }
+
+        let currentUser = req.session.currentUser[0]
 
         res.render('homeFeed.ejs', {
             posts: posts,
             allComments: allComments,
             allLikes: allLikes,
-            listOfPostsUsersLiked: listOfPostsUsersLiked
+            listOfPostsUsersLiked: listOfPostsUsersLiked,
+            currentUserFollowList: currentUserFollowList,
+            currentUser: req.session.currentUser[0]
         })
 
 

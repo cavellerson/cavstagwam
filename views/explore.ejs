@@ -68,7 +68,23 @@
                   <div class="modal-dialog modal-dialog-scrollable" id="modal-body">
                       <% for (let entry of listOfPostsUsersLiked) { %>
                           <% if (post.post_id === entry.post_id) { %>
-                             <a href="/<%=entry.username%>"><%=entry.username%></a>
+                              <div class="usernameAndButton">
+                                  <a id="likes-list-username" href="/<%=entry.username%>"><%=entry.username%></a>
+                                  <% if (entry.username != currentUser) { %>
+                                      <% if  (currentUserFollowList.includes(entry.username)) { %>
+                                          <form class="like-form" action="/unfollow/<%=entry.username%>?_method=DELETE" method="POST">
+                                              <input id="action-buttons" class="btn btn-outline-danger" type="Submit" name="" value="Unfollow">
+                                          </form>
+                                      <% } else { %>
+                                          <form class="like-form" action="/follow/action/<%=entry.username%>" method="POST"
+                                          >
+                                              <input id="action-buttons" class="btn btn-outline-primary" type="Submit" name="" value="Follow">
+                                          </form>
+
+                                     <% } %>
+                                  <% } %>
+                              </div>
+
                           <% } %>
                       <% } %>
                   </div>

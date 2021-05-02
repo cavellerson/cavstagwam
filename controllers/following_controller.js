@@ -22,7 +22,7 @@ followers.post('/action/:username', isAuthenticated, async(req, res) => {
         const newFollow = await pool.query(
             "INSERT INTO followers (username, following) VALUES($1,$2) RETURNING *", [username, followingUser]
         )
-        res.redirect(`/${followingUser}`)
+        res.redirect(`back`)
     } catch (err) {
         console.error(err.message)
     }

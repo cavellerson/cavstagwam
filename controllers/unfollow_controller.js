@@ -30,7 +30,7 @@ unfollows.delete('/:username', isAuthenticated, async(req, res) => {
             "DELETE FROM followers WHERE username=$1 AND following=$2", [username, followingUser]
         )
 
-        res.redirect(`/${req.params.username}`)
+        res.redirect('back')
     } catch (err) {
         console.error(err.message)
     }
