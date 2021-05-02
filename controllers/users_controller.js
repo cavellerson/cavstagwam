@@ -16,6 +16,8 @@ users.get('/new', (req, res) => {
     // console.log(`logging req.session.current user:  ${req.session.currentUser}`);
 })
 
+
+
 users.post('/new', async(req, res) => {
     try {
         req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
