@@ -53,13 +53,15 @@ home.get('/explore', isAuthenticated, async(req, res) => {
         for (let entry of querySeeAllLikesList["rows"]) {
             listOfPostsUsersLiked.push(entry)
         }
-        // console.log(listOfPostsUsersLiked);
 
 
         //sorts the followers by post_id
         allPosts.sort((a, b) => {
             return b.post_id - a.post_id;
         });
+
+        console.log(listOfPostsUsersLiked);
+
 
         res.render('explore.ejs', {
             allPosts: allPosts,

@@ -45,32 +45,28 @@
                 </div>
                 <div class="postDescription">
                     <!-- Button trigger modal -->
-                    <button type="button" id="likes" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <%=post.likes%> likes
-                    </button>
+               <button id="likes" type="button" data-bs-toggle="modal" data-bs-target="#likes-<%=post.post_id%>">
+                 <%=post.likes%> likes
+               </button>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Likes</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                              <p class="list-of-people-who-liked">
-                                  <% for (let entry of listOfPostsUsersLiked) { %>
-                                  <% if (entry.post_id === post.post_id) { %>
-                                      <a href="/<%=entry.username%>"><%=entry.username%></a>
-
-                                  <% } %>
-                              <% } %>
-                              </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
+               <!-- Modal -->
+               <div class="modal fade" id="likes-<%=post.post_id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                 <div class="modal-dialog">
+                   <div class="modal-content">
+                     <div class="modal-header">
+                       <h5 class="modal-title" id="exampleModalLabel">Likes</h5>
+                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                     </div>
+                     <div class="modal-dialog modal-dialog-scrollable" id="modal-body">
+                         <% for (let entry of listOfPostsUsersLiked) { %>
+                             <% if (post.post_id === entry.post_id) { %>
+                                <a href="/<%=entry.username%>"><%=entry.username%></a>
+                             <% } %>
+                         <% } %>
+                     </div>
+                   </div>
+                 </div>
+               </div>
 
                     <div class="mainDescription">
                         <h5><a id="username" href="/<%=post.username%>"><%=post.username%></a>

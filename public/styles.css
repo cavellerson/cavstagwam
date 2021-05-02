@@ -301,3 +301,9 @@ input {
     flex-direction: column;
 
 }
+
+#modal-body {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}

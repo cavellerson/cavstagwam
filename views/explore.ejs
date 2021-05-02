@@ -17,16 +17,22 @@
 
         <% for (let post of allPosts) { %>
 
+
+
         <div class="postBox">
-            first <%=post.post_id%>
+
             <div class="postHead">
                 <a id="username" href="/<%=post.username%>"><%=post.username%></a>
+
             </div>
+
             <div class="postBody">
+
                 <a href="/posts/<%=post.username%>/<%=post.post_id%>"><img
                     id="postImage" src="<%=post.image%>" alt="<%=post.image%>">
                 </a>
                 <% if (allLikes.includes(post.post_id)) { %>
+
                     <form class=""
                     action="/action/unlike/<%=post.username%>/<%=post.post_id%>?"
                     method="POST">
@@ -43,36 +49,33 @@
                     </form>
                 <% } %>
             </div>
-            second <%=post.post_id%>
             <div class="postDescription">
-                <!-- Button trigger modal -->
-               <button type="button" id="likes" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                   third <%=post.post_id%>
-                   <br>
-                   <%=post.likes%> likes
-               </button>
-               <!-- Modal -->
-               <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                 <div class="modal-dialog">
-                     <%=post.post_id%>
-                   <div class="modal-content">
-                       fourth <%=post.post_id%>
-                     <div class="modal-header">
-                       <h5 class="modal-title" id="exampleModalLabel">Likes fifth <%=post.post_id%></h5>
-                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                     </div>
-                     <div class="modal-body">
-                         <p class="list-of-people-who-liked">
-                             <% for (let entry of listOfPostsUsersLiked) { %>
-                             <% if (entry.post_id === post.post_id) { %>
-                                 <a href="/<%=entry.username%>"><%=entry.username%></a>
-                             <% } %>
-                         <% } %>
-                         </p>
-                     </div>
-                   </div>
-                 </div>
-               </div>
+
+
+                 <!-- Button trigger modal -->
+            <button id="likes" type="button" data-bs-toggle="modal" data-bs-target="#likes-<%=post.post_id%>">
+              <%=post.likes%> likes
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="likes-<%=post.post_id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Likes</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-dialog modal-dialog-scrollable" id="modal-body">
+                      <% for (let entry of listOfPostsUsersLiked) { %>
+                          <% if (post.post_id === entry.post_id) { %>
+                             <a href="/<%=entry.username%>"><%=entry.username%></a>
+                          <% } %>
+                      <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
 
 
 
@@ -80,7 +83,7 @@
 
                 <div class="mainDescription">
                     <a id="username" href="/<%=post.username%>"><%=post.username%></a> <%=post.description%>
-
+                    <%=post.post_id%>
                 </div>
 
             </div>
