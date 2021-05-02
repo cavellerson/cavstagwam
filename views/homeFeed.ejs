@@ -44,6 +44,7 @@
 
                 </div>
                 <div class="postDescription">
+
                     <!-- Button trigger modal -->
                     <!-- Button trigger modal -->
                <button id="likes" type="button" data-bs-toggle="modal" data-bs-target="#likes-<%=post.post_id%>">
@@ -85,11 +86,10 @@
                  </div>
                </div>
 
-                    <div class="mainDescription">
-                        <h5><a id="username" href="/<%=post.username%>"><%=post.username%></a>
-                        <%=post.description%></h5>
+               <div class="mainDescription">
+                   <a id="username" href="/<%=post.username%>"><%=post.username%></a> <%=post.description%>
 
-                    </div>
+               </div>
                         <br>
                         <% for (let comment of allComments) { %>
                             <% if (comment.post_id === post.post_id) { %>
