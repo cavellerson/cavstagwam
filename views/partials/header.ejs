@@ -8,8 +8,21 @@
         <link rel="stylesheet" href="/styles.css">
     </head>
     <body>
+
         <div class="header">
             <a href="/" id="cavstagwam">Cavstagwam</a>
+
+            <form class="" action="/search" method="post">
+                <input
+                id="search-users-bar" name="searchInput" placeholder="Search" list="users">
+                <datalist id="users">
+                <% for (let user of allUsersList) { %>
+                    <option value="<%=user%>">
+                <% } %>
+                </datalist>
+
+            </form>
+
             <ul class="navigation">
                 <li><a href="/"><ion-icon name="home-outline"></ion-icon></a></li>
                 <li><a href="/explore"><ion-icon name="compass-outline"></ion-icon></a></li>
