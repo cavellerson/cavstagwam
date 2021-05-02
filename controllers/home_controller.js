@@ -68,7 +68,13 @@ home.get('/explore', isAuthenticated, async(req, res) => {
             currentUserFollowList.push(entry["following"])
         }
         // console.log("people I follow", currentUserFollowList);
-
+        const queryAllUsers = await pool.query("SELECT * FROM usernames;")
+        let allUsersList = []
+        for (let usernameEntry of queryAllUsers["rows"]) {
+            if (usernameEntry["username"]!=req.session.currentUser[0]) {
+                allUsersList.push(usernameEntry["username"])
+            }
+        }
         res.render('explore.ejs', {
             allPosts: allPosts,
             username: req.session.currentUser[0],
@@ -77,7 +83,8 @@ home.get('/explore', isAuthenticated, async(req, res) => {
             allLikes: allLikes,
             listOfPostsUsersLiked: listOfPostsUsersLiked,
             currentUserFollowList: currentUserFollowList,
-            currentUser: req.session.currentUser[0]
+            currentUser: req.session.currentUser[0],
+            allUsersList: allUsersList
         })
     }
     catch (err) {
@@ -166,13 +173,22 @@ home.get('/', isAuthenticated, async(req, res) => {
 
         let currentUser = req.session.currentUser[0]
 
+        const queryAllUsers = await pool.query("SELECT * FROM usernames;")
+        let allUsersList = []
+        for (let usernameEntry of queryAllUsers["rows"]) {
+            if (usernameEntry["username"]!=req.session.currentUser[0]) {
+                allUsersList.push(usernameEntry["username"])
+            }
+        }
+
         res.render('homeFeed.ejs', {
             posts: posts,
             allComments: allComments,
             allLikes: allLikes,
             listOfPostsUsersLiked: listOfPostsUsersLiked,
             currentUserFollowList: currentUserFollowList,
-            currentUser: req.session.currentUser[0]
+            currentUser: req.session.currentUser[0],
+            allUsersList: allUsersList
         })
 
 
@@ -246,6 +262,14 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
             renderPage = false;
         }
 
+        const queryAllUsers = await pool.query("SELECT * FROM usernames;")
+        let allUsersList = []
+        for (let usernameEntry of queryAllUsers["rows"]) {
+            if (usernameEntry["username"]!=req.session.currentUser[0]) {
+                allUsersList.push(usernameEntry["username"])
+            }
+        }
+
 
         res.render('userProfile.ejs', {
             username: req.params.username,
@@ -255,7 +279,8 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
             followerLength: followersListLength,
             followingLength: followingListLength,
             postsLength: postsLength,
-            renderPage: renderPage
+            renderPage: renderPage,
+            allUsersList: allUsersList
 
         })
 

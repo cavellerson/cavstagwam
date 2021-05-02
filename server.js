@@ -53,6 +53,9 @@ app.use('', homeController)
 const likesController = require('./controllers/likes_controller.js')
 app.use('/action', likesController)
 
+const searchUsersController = require('./controllers/searchUsers_controller.js')
+app.use('/search', searchUsersController)
+
 
 
 app.get('/', (req, res) => {

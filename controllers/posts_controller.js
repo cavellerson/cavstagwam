@@ -18,19 +18,47 @@ const isAuthenticated = (req, res, next) => {
 posts.use(isAuthenticated)
 
 //create a posts
-posts.get('/create', isAuthenticated, (req, res) => {
+posts.get('/create', isAuthenticated, async(req, res) => {
+    try {
+        const queryAllUsers = await pool.query("SELECT * FROM usernames;")
+        let allUsersList = []
+        for (let usernameEntry of queryAllUsers["rows"]) {
+            if (usernameEntry["username"]!=req.session.currentUser[0]) {
+                allUsersList.push(usernameEntry["username"])
+            }
+        }
+        res.render('createPost.ejs',
+        {
+            username: req.session.currentUser[0],
+            allUsersList: allUsersList
+        })
+    } catch (error) {
+        console.error(error)
+    }
     // console.log(req.body.username);
-    res.render('createPost.ejs',
-    {
-        username: req.session.currentUser[0]
-    })
+
 })
 
-posts.get('/createv2', isAuthenticated, (req, res) => {
-    res.render('createPostv2.ejs',
-    {
-        username:req.session.currentUser[0]
-    })
+posts.get('/createv2', isAuthenticated, async(req, res) => {
+    try {
+        const queryAllUsers = await pool.query("SELECT * FROM usernames;")
+
+        let allUsersList = []
+        for (let usernameEntry of queryAllUsers["rows"]) {
+            if (usernameEntry["username"]!=req.session.currentUser[0]) {
+                allUsersList.push(usernameEntry["username"])
+            }
+        }
+
+        res.render('createPostv2.ejs',
+        {
+            username:req.session.currentUser[0],
+            allUsersList: allUsersList
+        })
+    } catch (error) {
+        console.error(error)
+    }
+
 })
 
 posts.post('/create', isAuthenticated, async(req, res) => {
@@ -143,10 +171,20 @@ posts.get('/:username/:id', isAuthenticated, async(req, res) => {
             allLikes.push(likeEntry["post_id"])
         }
 
+        const queryAllUsers = await pool.query("SELECT * FROM usernames;")
+        let allUsersList = []
+        for (let usernameEntry of queryAllUsers["rows"]) {
+            if (usernameEntry["username"]!=req.session.currentUser[0]) {
+                allUsersList.push(usernameEntry["username"])
+            }
+        }
+
+
         res.render('postPage.ejs',{
             post: post,
             allComments: allComments,
-            allLikes: allLikes
+            allLikes: allLikes,
+            allUsersList: allUsersList
         })
     } catch (err) {
         console.error(err.message)
@@ -162,13 +200,23 @@ posts.get('/:username/:id/edit', isAuthenticated, async(req, res) => {
         // console.log(queryData);
         const post = queryData["rows"][0]
         // console.log(post);
+        const queryAllUsers = await pool.query("SELECT * FROM usernames;")
+        let allUsersList = []
+        for (let usernameEntry of queryAllUsers["rows"]) {
+            if (usernameEntry["username"]!=req.session.currentUser[0]) {
+                allUsersList.push(usernameEntry["username"])
+            }
+        }
+
         if (req.params.username === req.session.currentUser[0]) {
             res.render('editPost.ejs',{
-                post: post
+                post: post,
+                allUsersList: allUsersList
             })
         } else {
             res.send("<h1> you don't have permission to update</h1>")
         }
+
 
     } catch (err) {
         console.error(err.message)
