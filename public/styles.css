@@ -337,3 +337,7 @@ input {
     line-height: 1vh;
     padding: 2vh;
 }
+
+#search-users-bar, input.commentBox {
+    outline: none;
+}
