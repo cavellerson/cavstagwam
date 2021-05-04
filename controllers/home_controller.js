@@ -180,6 +180,7 @@ home.get('/', isAuthenticated, async(req, res) => {
                 allUsersList.push(usernameEntry["username"])
             }
         }
+        // console.log(req.session);
 
         res.render('homeFeed.ejs', {
             posts: posts,

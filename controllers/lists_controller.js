@@ -24,18 +24,9 @@ lists.get('/followers/:username', isAuthenticated, async(req, res) => {
             followersList.push(follower["username"])
         }
         // console.log(followersList);
-
-        const queryAllUsers = await pool.query("SELECT * FROM usernames;")
-        let allUsersList = []
-        for (let usernameEntry of queryAllUsers["rows"]) {
-            if (usernameEntry["username"]!=req.session.currentUser[0]) {
-                allUsersList.push(usernameEntry["username"])
-            }
-        }
         res.render('followers.ejs', {
             followersList: followersList,
-            username: req.params.username,
-            allUsersList: allUsersList
+            username: req.params.username
         })
     } catch (err) {
         console.error(err.message)
@@ -52,18 +43,9 @@ lists.get('/following/:username', isAuthenticated, async(req, res) => {
             followingList.push(user["following"])
         }
         // console.log(followingList);
-
-        const queryAllUsers = await pool.query("SELECT * FROM usernames;")
-        let allUsersList = []
-        for (let usernameEntry of queryAllUsers["rows"]) {
-            if (usernameEntry["username"]!=req.session.currentUser[0]) {
-                allUsersList.push(usernameEntry["username"])
-            }
-        }
         res.render('following.ejs', {
             followingList: followingList,
-            username: req.params.username,
-            allUsersList: allUsersList
+            username: req.params.username
         })
     } catch (err) {
         console.error(err.message)
