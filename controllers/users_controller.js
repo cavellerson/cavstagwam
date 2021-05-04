@@ -5,6 +5,7 @@ const pool = require("../db.js")
 let displayUsernameMade = 0;
 
 users.get('/new', (req, res) => {
+
     res.render('newUser.ejs', {
         displayUsernameMade: displayUsernameMade
     })
