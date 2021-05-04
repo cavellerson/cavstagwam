@@ -263,6 +263,7 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
             renderPage = false;
         }
 
+        ///query for all users
         const queryAllUsers = await pool.query("SELECT * FROM usernames;")
         let allUsersList = []
         for (let usernameEntry of queryAllUsers["rows"]) {
