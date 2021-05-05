@@ -72,7 +72,7 @@
                             <% for (let notification of allNotifications) { %>
                                 <li class="notification-entry">
                                     <div class="left-notification">
-                                    <a href="/<%=notification["current_session_user"]%>"><%=notification["current_session_user"]%></a>
+                                    <a class="notification-username" href="/<%=notification["current_session_user"]%>"><%=notification["current_session_user"]%></a>
                                     <% if (notification["action"] === "liked") { %>
                                         <%=notification["action"]%> your
                                         photo.

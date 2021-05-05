@@ -371,3 +371,13 @@ input {
 #notification_date {
     font-size: small;
 }
+
+.notification-username {
+    color: black;
+    font-weight: bold;
+}
+
+.notification-username:hover {
+    text-decoration: underline;
+    color: black;
+}
