@@ -30,6 +30,11 @@ unfollows.delete('/:username', isAuthenticated, async(req, res) => {
             "DELETE FROM followers WHERE username=$1 AND following=$2", [username, followingUser]
         )
 
+        //delete notification of follow
+
+        const deleteNotification = await pool.query("DELETE FROM notifications WHERE current_session_user = $1 AND action=$2 AND username = $3", [username, "following", followingUser])
+
+
         res.redirect('back')
     } catch (err) {
         console.error(err.message)

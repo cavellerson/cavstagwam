@@ -75,6 +75,23 @@ home.get('/explore', isAuthenticated, async(req, res) => {
                 allUsersList.push(usernameEntry["username"])
             }
         }
+
+        //queries for all notifications
+        const queryForAllNotifications = await pool.query("SELECT * FROM notifications WHERE username = $1 ORDER BY notification_id DESC", [req.session.currentUser[0]])
+        // console.log(queryForAllNotifications["rows"]);
+        let allNotifications = []
+
+        for (let entry of queryForAllNotifications["rows"]) {
+            allNotifications.push(entry)
+        }
+
+        // get images for notifications
+        const queryForNotificationThumbnails = await pool.query("SELECT * FROM posts WHERE username = $1", [req.session.currentUser[0]])
+
+        let thumbnailLinks = []
+        for (let query of queryForNotificationThumbnails["rows"]) {
+            thumbnailLinks.push({post_id:query.post_id,image:query.image})
+        }
         res.render('explore.ejs', {
             allPosts: allPosts,
             username: req.session.currentUser[0],
@@ -84,7 +101,9 @@ home.get('/explore', isAuthenticated, async(req, res) => {
             listOfPostsUsersLiked: listOfPostsUsersLiked,
             currentUserFollowList: currentUserFollowList,
             currentUser: req.session.currentUser[0],
-            allUsersList: allUsersList
+            allUsersList: allUsersList,
+            allNotifications: allNotifications,
+            thumbnailLinks: thumbnailLinks
         })
     }
     catch (err) {
@@ -95,6 +114,7 @@ home.get('/explore', isAuthenticated, async(req, res) => {
 
 home.get('/profile', isAuthenticated, (req, res) => {
     let currentUser = req.session.currentUser[0]
+
     res.redirect(`/${currentUser}`)
 })
 
@@ -182,6 +202,24 @@ home.get('/', isAuthenticated, async(req, res) => {
         }
         // console.log(req.session);
 
+        //queries for all notifications
+        const queryForAllNotifications = await pool.query("SELECT * FROM notifications WHERE username = $1 ORDER BY notification_id DESC", [req.session.currentUser[0]])
+        // console.log(queryForAllNotifications["rows"]);
+        let allNotifications = []
+
+        for (let entry of queryForAllNotifications["rows"]) {
+            allNotifications.push(entry)
+        }
+        // console.log(allNotifications);
+
+        // get images for notifications
+        const queryForNotificationThumbnails = await pool.query("SELECT * FROM posts WHERE username = $1", [req.session.currentUser[0]])
+
+        let thumbnailLinks = []
+        for (let query of queryForNotificationThumbnails["rows"]) {
+            thumbnailLinks.push({post_id:query.post_id,image:query.image})
+        }
+
         res.render('homeFeed.ejs', {
             posts: posts,
             allComments: allComments,
@@ -189,7 +227,9 @@ home.get('/', isAuthenticated, async(req, res) => {
             listOfPostsUsersLiked: listOfPostsUsersLiked,
             currentUserFollowList: currentUserFollowList,
             currentUser: req.session.currentUser[0],
-            allUsersList: allUsersList
+            allUsersList: allUsersList,
+            allNotifications: allNotifications,
+            thumbnailLinks: thumbnailLinks
         })
 
 
@@ -272,6 +312,25 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
             }
         }
 
+        //query for all notifications of the current user
+        const queryForAllNotifications = await pool.query("SELECT * FROM notifications WHERE username = $1 ORDER BY notification_id DESC", [req.session.currentUser[0]])
+        // console.log(queryForAllNotifications["rows"]);
+        let allNotifications = []
+
+        for (let entry of queryForAllNotifications["rows"]) {
+            allNotifications.push(entry)
+        }
+
+        // get images for notifications
+        const queryForNotificationThumbnails = await pool.query("SELECT * FROM posts WHERE username = $1", [req.session.currentUser[0]])
+
+        let thumbnailLinks = []
+        for (let query of queryForNotificationThumbnails["rows"]) {
+            thumbnailLinks.push({post_id:query.post_id,image:query.image})
+        }
+        // console.log("thumbnail array", thumbnailLinks);
+
+
 
         res.render('userProfile.ejs', {
             username: req.params.username,
@@ -282,7 +341,10 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
             followingLength: followingListLength,
             postsLength: postsLength,
             renderPage: renderPage,
-            allUsersList: allUsersList
+            allUsersList: allUsersList,
+            allNotifications: allNotifications,
+            thumbnailLinks: thumbnailLinks
+
 
         })
 

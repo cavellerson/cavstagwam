@@ -23,8 +23,8 @@ lists.get('/followers/:username', isAuthenticated, async(req, res) => {
         for (let follower of obtainingFollowersList["rows"]) {
             followersList.push(follower["username"])
         }
+        // console.log(followersList);
 
-        ///query for all users
         const queryAllUsers = await pool.query("SELECT * FROM usernames;")
         let allUsersList = []
         for (let usernameEntry of queryAllUsers["rows"]) {
@@ -33,11 +33,29 @@ lists.get('/followers/:username', isAuthenticated, async(req, res) => {
             }
         }
 
-        // console.log(followersList);
+        //queries for all notifications
+        const queryForAllNotifications = await pool.query("SELECT * FROM notifications WHERE username = $1 ORDER BY notification_id DESC", [req.session.currentUser[0]])
+        // console.log(queryForAllNotifications["rows"]);
+        let allNotifications = []
+
+        for (let entry of queryForAllNotifications["rows"]) {
+            allNotifications.push(entry)
+        }
+
+        // get images for notifications
+        const queryForNotificationThumbnails = await pool.query("SELECT * FROM posts WHERE username = $1", [req.session.currentUser[0]])
+
+        let thumbnailLinks = []
+        for (let query of queryForNotificationThumbnails["rows"]) {
+            thumbnailLinks.push({post_id:query.post_id,image:query.image})
+        }
+
         res.render('followers.ejs', {
             followersList: followersList,
             username: req.params.username,
-            allUsersList: allUsersList
+            allUsersList: allUsersList,
+            allNotifications: allNotifications,
+            thumbnailLinks: thumbnailLinks
         })
     } catch (err) {
         console.error(err.message)
@@ -53,8 +71,8 @@ lists.get('/following/:username', isAuthenticated, async(req, res) => {
         for (let user of obtainingFollowingList["rows"]) {
             followingList.push(user["following"])
         }
+        // console.log(followingList);
 
-        ///query for all users
         const queryAllUsers = await pool.query("SELECT * FROM usernames;")
         let allUsersList = []
         for (let usernameEntry of queryAllUsers["rows"]) {
@@ -62,11 +80,30 @@ lists.get('/following/:username', isAuthenticated, async(req, res) => {
                 allUsersList.push(usernameEntry["username"])
             }
         }
-        // console.log(followingList);
+
+        //queries for all notifications
+        const queryForAllNotifications = await pool.query("SELECT * FROM notifications WHERE username = $1 ORDER BY notification_id DESC", [req.session.currentUser[0]])
+        // console.log(queryForAllNotifications["rows"]);
+        let allNotifications = []
+
+        for (let entry of queryForAllNotifications["rows"]) {
+            allNotifications.push(entry)
+        }
+
+        // get images for notifications
+        const queryForNotificationThumbnails = await pool.query("SELECT * FROM posts WHERE username = $1", [req.session.currentUser[0]])
+
+        let thumbnailLinks = []
+        for (let query of queryForNotificationThumbnails["rows"]) {
+            thumbnailLinks.push({post_id:query.post_id,image:query.image})
+        }
+
         res.render('following.ejs', {
             followingList: followingList,
             username: req.params.username,
-            allUsersList: allUsersList
+            allUsersList: allUsersList,
+            allNotifications: allNotifications,
+            thumbnailLinks
         })
     } catch (err) {
         console.error(err.message)

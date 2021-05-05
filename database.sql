@@ -29,3 +29,12 @@ CREATE TABLE likes (
     username VARCHAR(255),
     post_id INT
 );
+
+CREATE TABLE notifications (
+    notification_id SERIAL PRIMARY KEY,
+    current_session_user VARCHAR(255),
+    action VARCHAR(255),
+    username VARCHAR(255),
+    post_id VARCHAR(255),
+    notification_date date
+);

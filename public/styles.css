@@ -348,3 +348,25 @@ input {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.dropdown-menu {
+    width: 25vw;
+    padding: 1vw;
+
+}
+
+.thumbnailPic {
+    width: 5vw;
+}
+
+.notification-entry {
+    margin-top: 2vh;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+
+#notification_date {
+    font-size: small;
+}

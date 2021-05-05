@@ -47,7 +47,53 @@
 
                 </li>
 
+                <li>
 
+                    <!-- <div class="dropdown">
+                        <button type="button" id="dropdownMenuButton2"
+                        data-bs-toggle"dropdown"
+                        aria-expanded="false" name="button"><ion-icon name="notifications-outline"></ion-icon></button>
+                    </div>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                        <li>hello</li>
+                    </ul> -->
+                    <div class="dropdown">
+                        <button
+                     type="button"
+                        id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        >
+                        <ion-icon name="notifications-outline"></ion-icon></a>
+                        </button>
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <% for (let notification of allNotifications) { %>
+                                <li class="notification-entry">
+                                    <div class="left-notification">
+                                    <a href="/<%=notification["current_session_user"]%>"><%=notification["current_session_user"]%></a>
+                                    <% if (notification["action"] === "liked") { %>
+                                        <%=notification["action"]%> your
+                                        photo
+                                    <% } else if (notification["action"] === "following") { %>
+                                        started <%=notification["action"]%> you
+                                    <% }%>
+                                    on
+                                    <div id="notification_date">                                    <%=notification["notification_date"].toDateString()%>
+                                    </div>
+                                    </div>
+                                    <% for (let entry of thumbnailLinks) { %>
+                                        <% if (entry["post_id"] == notification["post_id"]) { %>
+                                            <a href="/posts/<%=notification["username"]%>/<%=notification["post_id"]%>"><img class="thumbnailPic" src="<%=entry["image"]%>" alt=""></a>
+                                        <% } %>
+
+
+                                    <% } %>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </div>
+                </li>
 
 
                 <li>

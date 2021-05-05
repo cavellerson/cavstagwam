@@ -27,10 +27,30 @@ posts.get('/create', isAuthenticated, async(req, res) => {
                 allUsersList.push(usernameEntry["username"])
             }
         }
+
+        //queries for all notifications
+        const queryForAllNotifications = await pool.query("SELECT * FROM notifications WHERE username = $1 ORDER BY notification_id DESC", [req.session.currentUser[0]])
+        // console.log(queryForAllNotifications["rows"]);
+        let allNotifications = []
+
+        for (let entry of queryForAllNotifications["rows"]) {
+            allNotifications.push(entry)
+        }
+
+        // get images for notifications
+        const queryForNotificationThumbnails = await pool.query("SELECT * FROM posts WHERE username = $1", [req.session.currentUser[0]])
+
+        let thumbnailLinks = []
+        for (let query of queryForNotificationThumbnails["rows"]) {
+            thumbnailLinks.push({post_id:query.post_id,image:query.image})
+        }
+
         res.render('createPost.ejs',
         {
             username: req.session.currentUser[0],
-            allUsersList: allUsersList
+            allUsersList: allUsersList,
+            allNotifications: allNotifications,
+            thumbnailLinks: thumbnailLinks
         })
     } catch (error) {
         console.error(error)
@@ -50,10 +70,29 @@ posts.get('/createv2', isAuthenticated, async(req, res) => {
             }
         }
 
+        //queries for all notifications
+        const queryForAllNotifications = await pool.query("SELECT * FROM notifications WHERE username = $1 ORDER BY notification_id DESC", [req.session.currentUser[0]])
+        // console.log(queryForAllNotifications["rows"]);
+        let allNotifications = []
+
+        for (let entry of queryForAllNotifications["rows"]) {
+            allNotifications.push(entry)
+        }
+
+        // get images for notifications
+        const queryForNotificationThumbnails = await pool.query("SELECT * FROM posts WHERE username = $1", [req.session.currentUser[0]])
+
+        let thumbnailLinks = []
+        for (let query of queryForNotificationThumbnails["rows"]) {
+            thumbnailLinks.push({post_id:query.post_id,image:query.image})
+        }
+
         res.render('createPostv2.ejs',
         {
             username:req.session.currentUser[0],
-            allUsersList: allUsersList
+            allUsersList: allUsersList,
+            allNotifications: allNotifications,
+            thumbnailLinks: thumbnailLinks
         })
     } catch (error) {
         console.error(error)
@@ -179,12 +218,30 @@ posts.get('/:username/:id', isAuthenticated, async(req, res) => {
             }
         }
 
+        //queries for all notifications
+        const queryForAllNotifications = await pool.query("SELECT * FROM notifications WHERE username = $1 ORDER BY notification_id DESC", [req.session.currentUser[0]])
+        // console.log(queryForAllNotifications["rows"]);
+        let allNotifications = []
+
+        for (let entry of queryForAllNotifications["rows"]) {
+            allNotifications.push(entry)
+        }
+
+        // get images for notifications
+        const queryForNotificationThumbnails = await pool.query("SELECT * FROM posts WHERE username = $1", [req.session.currentUser[0]])
+
+        let thumbnailLinks = []
+        for (let query of queryForNotificationThumbnails["rows"]) {
+            thumbnailLinks.push({post_id:query.post_id,image:query.image})
+        }
 
         res.render('postPage.ejs',{
             post: post,
             allComments: allComments,
             allLikes: allLikes,
-            allUsersList: allUsersList
+            allUsersList: allUsersList,
+            allNotifications: allNotifications,
+            thumbnailLinks: thumbnailLinks
         })
     } catch (err) {
         console.error(err.message)
@@ -208,10 +265,29 @@ posts.get('/:username/:id/edit', isAuthenticated, async(req, res) => {
             }
         }
 
+        //queries for all notifications
+        const queryForAllNotifications = await pool.query("SELECT * FROM notifications WHERE username = $1 ORDER BY notification_id DESC", [req.session.currentUser[0]])
+        // console.log(queryForAllNotifications["rows"]);
+        let allNotifications = []
+
+        for (let entry of queryForAllNotifications["rows"]) {
+            allNotifications.push(entry)
+        }
+        // get images for notifications
+        const queryForNotificationThumbnails = await pool.query("SELECT * FROM posts WHERE username = $1", [req.session.currentUser[0]])
+
+        let thumbnailLinks = []
+        for (let query of queryForNotificationThumbnails["rows"]) {
+            thumbnailLinks.push({post_id:query.post_id,image:query.image})
+        }
+
+
         if (req.params.username === req.session.currentUser[0]) {
             res.render('editPost.ejs',{
                 post: post,
-                allUsersList: allUsersList
+                allUsersList: allUsersList,
+                allNotifications: allNotifications,
+                thumbnailLinks: thumbnailLinks
             })
         } else {
             res.send("<h1> you don't have permission to update</h1>")
