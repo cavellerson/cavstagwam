@@ -64,7 +64,7 @@ body {
     flex-direction: column;
     margin: auto;
     border: 1px solid rgba(219,219,219,1);
-    width: 50%;
+    width: 40%;
     margin-top: 5vh;
 }
 
@@ -72,13 +72,17 @@ body {
     padding: .5em;
 }
 
-#username, #likes {
+#username, #likes, #likes-list-username {
     margin-left: 1vw;
     color: black;
     font-weight: 600;
 }
-
-#username:hover,#likes:hover {
+#likes {
+    display: flex;
+    width: 100%;
+    margin-right: 10vw;
+}
+#username:hover,#likes:hover, #likes-list-username:hover {
     text-decoration: underline;
 }
 
@@ -276,4 +280,93 @@ input {
 
 .editButtons>form {
     margin: auto;
+}
+
+.list {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: auto;
+}
+
+.commentBox {
+    border: none;
+    border-top: 1px
+    rgba(219,219,219,1) solid;
+}
+
+.list-of-people-who-liked {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+
+}
+
+#modal-body {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.modal-dialog {
+    pointer-events: all;
+}
+
+.usernameAndButton {
+    display: flex;
+    align-items: baseline;
+    JUSTIFY-CONTENT: space-between;
+}
+
+.modal-content {
+    width: 75%;
+}
+
+.modal-content, #likes-list-username {
+    margin-right: 10vw;
+    margin-bottom: 1em;
+}
+
+#search-users-bar {
+    height: 2vh;
+    font-size: 2.5vh;
+    border: 1px
+    rgba(219,219,219,1) solid;
+    border-radius: 1vw; ;
+    margin: auto;
+    line-height: 1vh;
+    padding: 2vh;
+}
+
+#search-users-bar, input.commentBox {
+    outline: none;
+}
+
+.picture-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.dropdown-menu {
+    width: 25vw;
+    padding: 1vw;
+
+}
+
+.thumbnailPic {
+    width: 5vw;
+}
+
+.notification-entry {
+    margin-top: 2vh;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+
+#notification_date {
+    font-size: small;
 }

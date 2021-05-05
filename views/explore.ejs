@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <title></title>
+        <title>cavstagwam</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 
         <link rel="stylesheet" href="/styles.css">
@@ -11,19 +11,28 @@
     <body>
         <%- include ('./partials/header.ejs') %>
 
-        <h3 class="greeting">Hi, <%=username%>, check out what others are posting:) </h3>
+        <h3 class="greeting">Hi <%=username%>, check out what others are posting:) </h3>
+
 
 
         <% for (let post of allPosts) { %>
+
+
+
         <div class="postBox">
+
             <div class="postHead">
                 <a id="username" href="/<%=post.username%>"><%=post.username%></a>
+
             </div>
+
             <div class="postBody">
+
                 <a href="/posts/<%=post.username%>/<%=post.post_id%>"><img
                     id="postImage" src="<%=post.image%>" alt="<%=post.image%>">
                 </a>
                 <% if (allLikes.includes(post.post_id)) { %>
+
                     <form class=""
                     action="/action/unlike/<%=post.username%>/<%=post.post_id%>?"
                     method="POST">
@@ -41,10 +50,56 @@
                 <% } %>
             </div>
             <div class="postDescription">
-                <a id="likes" href="#"><%=post.likes%> likes</a>
+
+
+                 <!-- Button trigger modal -->
+            <button id="likes" type="button" data-bs-toggle="modal" data-bs-target="#likes-<%=post.post_id%>">
+              <%=post.likes%> likes
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="likes-<%=post.post_id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Likes</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-dialog modal-dialog-scrollable" id="modal-body">
+                      <% for (let entry of listOfPostsUsersLiked) { %>
+                          <% if (post.post_id === entry.post_id) { %>
+                              <div class="usernameAndButton">
+                                  <a id="likes-list-username" href="/<%=entry.username%>"><%=entry.username%></a>
+                                  <% if (entry.username != currentUser) { %>
+                                      <% if  (currentUserFollowList.includes(entry.username)) { %>
+                                          <form class="like-form" action="/unfollow/<%=entry.username%>?_method=DELETE" method="POST">
+                                              <input id="action-buttons" class="btn btn-outline-danger" type="Submit" name="" value="Unfollow">
+                                          </form>
+                                      <% } else { %>
+                                          <form class="like-form" action="/follow/action/<%=entry.username%>" method="POST"
+                                          >
+                                              <input id="action-buttons" class="btn btn-outline-primary" type="Submit" name="" value="Follow">
+                                          </form>
+
+                                     <% } %>
+                                  <% } %>
+                              </div>
+
+                          <% } %>
+                      <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+
                 <div class="mainDescription">
                     <a id="username" href="/<%=post.username%>"><%=post.username%></a> <%=post.description%>
-
+                    
                 </div>
 
             </div>
@@ -62,6 +117,7 @@
             </form>
         </div>
         <% } %>
+
 
 
     </body>

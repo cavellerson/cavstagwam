@@ -2,6 +2,7 @@ const express = require('express')
 const home = express.Router()
 const pool = require("../db")
 
+
 const isAuthenticated = (req, res, next) => {
     if (req.session.currentUser) {
         return next()
@@ -14,7 +15,7 @@ home.use(isAuthenticated)
 // get all posts
 home.get('/explore', isAuthenticated, async(req, res) => {
     try {
-        const post = await pool.query("SELECT * FROM posts;")
+        const post = await pool.query("SELECT * FROM posts ORDER by post_id ASC;")
 
         let allPosts = post.rows.reverse();
         // console.log(allPosts);
@@ -45,12 +46,64 @@ home.get('/explore', isAuthenticated, async(req, res) => {
             allLikes.push(likeEntry["post_id"])
         }
 
+        // queries for who has liked the post
+        let listOfPostsUsersLiked = [];
+        const querySeeAllLikesList = await pool.query("SELECT * FROM likes ORDER by username;")
+        // console.log(querySeeAllLikesList["rows"]);
+        for (let entry of querySeeAllLikesList["rows"]) {
+            listOfPostsUsersLiked.push(entry)
+        }
+
+
+        //sorts the followers by post_id
+        allPosts.sort((a, b) => {
+            return b.post_id - a.post_id;
+        });
+
+        // console.log(listOfPostsUsersLiked);
+        let currentUserFollowList = []
+        const queryForPeopleIFollow = await pool.query("SELECT * FROM followers WHERE username = $1", [req.session.currentUser[0]])
+
+        for (let entry of queryForPeopleIFollow["rows"]) {
+            currentUserFollowList.push(entry["following"])
+        }
+        // console.log("people I follow", currentUserFollowList);
+        const queryAllUsers = await pool.query("SELECT * FROM usernames;")
+        let allUsersList = []
+        for (let usernameEntry of queryAllUsers["rows"]) {
+            if (usernameEntry["username"]!=req.session.currentUser[0]) {
+                allUsersList.push(usernameEntry["username"])
+            }
+        }
+
+        //queries for all notifications
+        const queryForAllNotifications = await pool.query("SELECT * FROM notifications WHERE username = $1 ORDER BY notification_id DESC", [req.session.currentUser[0]])
+        // console.log(queryForAllNotifications["rows"]);
+        let allNotifications = []
+
+        for (let entry of queryForAllNotifications["rows"]) {
+            allNotifications.push(entry)
+        }
+
+        // get images for notifications
+        const queryForNotificationThumbnails = await pool.query("SELECT * FROM posts WHERE username = $1", [req.session.currentUser[0]])
+
+        let thumbnailLinks = []
+        for (let query of queryForNotificationThumbnails["rows"]) {
+            thumbnailLinks.push({post_id:query.post_id,image:query.image})
+        }
         res.render('explore.ejs', {
             allPosts: allPosts,
             username: req.session.currentUser[0],
             allUsernames: allUsernames,
             allComments: allComments,
-            allLikes: allLikes
+            allLikes: allLikes,
+            listOfPostsUsersLiked: listOfPostsUsersLiked,
+            currentUserFollowList: currentUserFollowList,
+            currentUser: req.session.currentUser[0],
+            allUsersList: allUsersList,
+            allNotifications: allNotifications,
+            thumbnailLinks: thumbnailLinks
         })
     }
     catch (err) {
@@ -61,15 +114,141 @@ home.get('/explore', isAuthenticated, async(req, res) => {
 
 home.get('/profile', isAuthenticated, (req, res) => {
     let currentUser = req.session.currentUser[0]
+
     res.redirect(`/${currentUser}`)
+})
+
+
+
+// get your feed depending on the users you're following
+home.get('/', isAuthenticated, async(req, res) => {
+    try {
+        const queryFeedPosts = await pool.query("SELECT * FROM followers WHERE username = $1", [req.session.currentUser[0]])
+
+        let posts = [];
+        let allComments = []
+        // console.log(queryFeedPosts["rows"]);
+
+        for (let rowData of queryFeedPosts["rows"]) {
+
+            const followedPost = await pool.query("SELECT * FROM posts WHERE username = $1 ORDER by post_id DESC", [rowData["following"]])
+
+            // console.log(followedPost);
+            // console.log(rowData["following"]);
+            // console.log(followedPost["rows"]);
+            // posts.push(followedPost["rows"])
+
+            for (let post of followedPost["rows"]) {
+                posts.unshift(post);
+                // console.log(post);
+                const queryComments = await pool.query("SELECT * FROM comments WHERE post_id = $1", [post.post_id] )
+
+                for (let comment of queryComments["rows"]) {
+                    allComments.push(comment)
+                    // console.log(comment);
+                }
+            }
+
+        }
+
+
+        posts.sort((a, b) => {
+            return b.post_id - a.post_id;
+        });
+        // console.log(posts);
+
+        // check if user has liked the post
+        const queryCheckIfLiked = await pool.query("SELECT * FROM likes WHERE username = $1", [req.session.currentUser[0]])
+
+        let allLikes = []
+
+        for (let likeEntry of queryCheckIfLiked["rows"]) {
+            allLikes.push(likeEntry["post_id"])
+        }
+
+        // queries for who has liked the post
+        let listOfPostsUsersLiked = [];
+        const querySeeAllLikesList = await pool.query("SELECT * FROM likes ORDER by username;")
+        // console.log(querySeeAllLikesList["rows"]);
+        for (let entry of querySeeAllLikesList["rows"]) {
+            listOfPostsUsersLiked.push(entry)
+        }
+        // console.log(listOfPostsUsersLiked);
+
+
+        //sorts the followers by post_id
+        posts.sort((a, b) => {
+            return b.post_id - a.post_id;
+        });
+
+        // console.log(listOfPostsUsersLiked);
+
+
+        let currentUserFollowList = []
+        const queryForPeopleIFollow = await pool.query("SELECT * FROM followers WHERE username = $1", [req.session.currentUser[0]])
+
+        for (let entry of queryForPeopleIFollow["rows"]) {
+            currentUserFollowList.push(entry["following"])
+        }
+
+        let currentUser = req.session.currentUser[0]
+
+        const queryAllUsers = await pool.query("SELECT * FROM usernames;")
+        let allUsersList = []
+        for (let usernameEntry of queryAllUsers["rows"]) {
+            if (usernameEntry["username"]!=req.session.currentUser[0]) {
+                allUsersList.push(usernameEntry["username"])
+            }
+        }
+        // console.log(req.session);
+
+        //queries for all notifications
+        const queryForAllNotifications = await pool.query("SELECT * FROM notifications WHERE username = $1 ORDER BY notification_id DESC", [req.session.currentUser[0]])
+        // console.log(queryForAllNotifications["rows"]);
+        let allNotifications = []
+
+        for (let entry of queryForAllNotifications["rows"]) {
+            allNotifications.push(entry)
+        }
+        // console.log(allNotifications);
+
+        // get images for notifications
+        const queryForNotificationThumbnails = await pool.query("SELECT * FROM posts WHERE username = $1", [req.session.currentUser[0]])
+
+        let thumbnailLinks = []
+        for (let query of queryForNotificationThumbnails["rows"]) {
+            thumbnailLinks.push({post_id:query.post_id,image:query.image})
+        }
+
+        res.render('homeFeed.ejs', {
+            posts: posts,
+            allComments: allComments,
+            allLikes: allLikes,
+            listOfPostsUsersLiked: listOfPostsUsersLiked,
+            currentUserFollowList: currentUserFollowList,
+            currentUser: req.session.currentUser[0],
+            allUsersList: allUsersList,
+            allNotifications: allNotifications,
+            thumbnailLinks: thumbnailLinks
+        })
+
+
+
+    } catch (err) {
+        console.error(err.message)
+    }
 })
 
 //shows user profile
 home.get(`/:username`, isAuthenticated, async(req, res) => {
     try {
         //queries for data for posts made by req.params.username
+<<<<<<< HEAD
 
         const queryData = await pool.query("SELECT * FROM posts WHERE username = $1",[req.params.username])
+=======
+        const queryData = await pool.query("SELECT * FROM posts WHERE username = $1 ORDER by post_id DESC",[req.params.username])
+>>>>>>> 84136ddc4831ad3b6afdb6300f4ce3ef1b6c6f67
 
         let allPosts = queryData["rows"]
 
@@ -115,6 +294,7 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
         let followersListLength = followersList.length
 
 
+<<<<<<< HEAD
         // for (let like of queryCheckIfLiked["rows"]) {
         //     allLikes.push(like)
         // }
@@ -151,78 +331,79 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
             postsLength: postsLength,
             followersList: followersList,
             followingList: followingList
+=======
+>>>>>>> 84136ddc4831ad3b6afdb6300f4ce3ef1b6c6f67
 
-        })
-    } catch (err) {
-        console.error(err.message)
-    }
-})
+        const checkIfUserExists = await pool.query("SELECT * FROM usernames;")
+        // console.log(checkIfUserExists);
+        let allUsers = []
+        for (let entry of checkIfUserExists["rows"]) {
+            allUsers.push(entry["username"])
+        }
 
-// get your feed depending on the users you're following
-home.get('/', isAuthenticated, async(req, res) => {
-    try {
-        const queryFeedPosts = await pool.query("SELECT * FROM followers WHERE username = $1", [req.session.currentUser[0]])
-        // console.log(queryFeedPosts["rows"]);
-        let posts = [];
-        let allComments = []
+        let renderPage;
+        if (allUsers.includes(req.params.username)) {
+            renderPage = true;
+        } else {
+            renderPage = false;
+        }
 
-        for (let rowData of queryFeedPosts["rows"]) {
-
-            const followedPost = await pool.query("SELECT * FROM posts WHERE username = $1", [rowData["following"]])
-
-            // console.log(followedPost);
-            // console.log(rowData["following"]);
-            // console.log(followedPost["rows"]);
-            // posts.push(followedPost["rows"])
-
-            for (let post of followedPost["rows"]) {
-                posts.push(post);
-                // console.log(post);
-                const queryComments = await pool.query("SELECT * FROM comments WHERE post_id = $1", [post.post_id] )
-
-                for (let comment of queryComments["rows"]) {
-                    allComments.push(comment)
-                    // console.log(comment);
-                }
+        ///query for all users
+        const queryAllUsers = await pool.query("SELECT * FROM usernames;")
+        let allUsersList = []
+        for (let usernameEntry of queryAllUsers["rows"]) {
+            if (usernameEntry["username"]!=req.session.currentUser[0]) {
+                allUsersList.push(usernameEntry["username"])
             }
-
-
-
-
-            // posts.push(followedPost["rows"])
-
         }
 
-        // check if user has liked the post
-        const queryCheckIfLiked = await pool.query("SELECT * FROM likes WHERE username = $1", [req.session.currentUser[0]])
+        //query for all notifications of the current user
+        const queryForAllNotifications = await pool.query("SELECT * FROM notifications WHERE username = $1 ORDER BY notification_id DESC", [req.session.currentUser[0]])
+        // console.log(queryForAllNotifications["rows"]);
+        let allNotifications = []
 
-        let allLikes = []
-
-        for (let likeEntry of queryCheckIfLiked["rows"]) {
-            allLikes.push(likeEntry["post_id"])
+        for (let entry of queryForAllNotifications["rows"]) {
+            allNotifications.push(entry)
         }
-        // console.log(allLikes);
 
-        // if (allLikes.includes(post.post_id)) {
-        //     render dislike
-        // } else {
-        //     render like
-        // }
+        // get images for notifications
+        const queryForNotificationThumbnails = await pool.query("SELECT * FROM posts WHERE username = $1", [req.session.currentUser[0]])
+
+        let thumbnailLinks = []
+        for (let query of queryForNotificationThumbnails["rows"]) {
+            thumbnailLinks.push({post_id:query.post_id,image:query.image})
+        }
+        // console.log("thumbnail array", thumbnailLinks);
 
 
-        res.render('homeFeed.ejs', {
-            posts: posts,
-            allComments: allComments,
-            allLikes: allLikes
+
+        res.render('userProfile.ejs', {
+            username: req.params.username,
+            allPosts: allPosts,
+            currentUser: req.session.currentUser[0],
+            whichButtonToRender: whichButtonToRender,
+            followerLength: followersListLength,
+            followingLength: followingListLength,
+            postsLength: postsLength,
+            renderPage: renderPage,
+            allUsersList: allUsersList,
+            allNotifications: allNotifications,
+            thumbnailLinks: thumbnailLinks
+
+
         })
-        // console.log(posts);
-
-
 
     } catch (err) {
-        console.error(err.message)
+        console.error("this is the error", err.message)
     }
+
+
+
 })
+
+
+
+
 
 
 
