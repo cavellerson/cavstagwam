@@ -74,11 +74,11 @@
                                     <a href="/<%=notification["current_session_user"]%>"><%=notification["current_session_user"]%></a>
                                     <% if (notification["action"] === "liked") { %>
                                         <%=notification["action"]%> your
-                                        photo
+                                        photo.
                                     <% } else if (notification["action"] === "following") { %>
-                                        started <%=notification["action"]%> you
+                                        started <%=notification["action"]%> you.
                                     <% }%>
-                                    on
+
                                     <div id="notification_date">                                    <%=notification["notification_date"].toDateString()%>
                                     </div>
                                     </div>
