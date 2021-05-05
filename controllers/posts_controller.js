@@ -235,13 +235,33 @@ posts.get('/:username/:id', isAuthenticated, async(req, res) => {
             thumbnailLinks.push({post_id:query.post_id,image:query.image})
         }
 
+        // queries for who has liked the post
+        let listOfPostsUsersLiked = [];
+        const querySeeAllLikesList = await pool.query("SELECT * FROM likes ORDER by username;")
+        // console.log(querySeeAllLikesList["rows"]);
+        for (let entry of querySeeAllLikesList["rows"]) {
+            listOfPostsUsersLiked.push(entry)
+        }
+
+        // QUERY for people the user follows
+        let currentUserFollowList = []
+        const queryForPeopleIFollow = await pool.query("SELECT * FROM followers WHERE username = $1", [req.session.currentUser[0]])
+
+        for (let entry of queryForPeopleIFollow["rows"]) {
+            currentUserFollowList.push(entry["following"])
+        }
+
         res.render('postPage.ejs',{
             post: post,
             allComments: allComments,
             allLikes: allLikes,
             allUsersList: allUsersList,
             allNotifications: allNotifications,
-            thumbnailLinks: thumbnailLinks
+            thumbnailLinks: thumbnailLinks,
+            listOfPostsUsersLiked: listOfPostsUsersLiked,
+            currentUser: req.session.currentUser[0],
+            currentUserFollowList: currentUserFollowList
+
         })
     } catch (err) {
         console.error(err.message)
