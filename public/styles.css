@@ -352,7 +352,7 @@ input {
 .dropdown-menu {
     width: 25vw;
     padding: 1vw;
-
+    overflow: scroll;
 }
 
 .thumbnailPic {

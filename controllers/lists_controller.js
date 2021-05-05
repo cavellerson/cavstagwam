@@ -72,8 +72,6 @@ lists.get('/following/:username', isAuthenticated, async(req, res) => {
             followingList.push(user["following"])
         }
         // console.log(followingList);
-<<<<<<< HEAD
-=======
 
         const queryAllUsers = await pool.query("SELECT * FROM usernames;")
         let allUsersList = []
@@ -100,7 +98,6 @@ lists.get('/following/:username', isAuthenticated, async(req, res) => {
             thumbnailLinks.push({post_id:query.post_id,image:query.image})
         }
 
->>>>>>> 84136ddc4831ad3b6afdb6300f4ce3ef1b6c6f67
         res.render('following.ejs', {
             followingList: followingList,
             username: req.params.username,
