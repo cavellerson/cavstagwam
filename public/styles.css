@@ -349,10 +349,11 @@ input {
     transform: translate(-50%, -50%);
 }
 
-.dropdown-menu {
+ .notification-drop-down {
     width: 25vw;
     padding: 1vw;
     overflow: scroll;
+    height: 50vh;
 }
 
 .thumbnailPic {
