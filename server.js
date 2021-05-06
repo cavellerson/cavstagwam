@@ -53,6 +53,9 @@ app.use('', homeController)
 const likesController = require('./controllers/likes_controller.js')
 app.use('/action', likesController)
 
+const searchUsersController = require('./controllers/searchUsers_controller.js')
+app.use('/search', searchUsersController)
+
 // const psqlController = require('./controllers/psql_clean.js')
 // app.use('/psql/clean/up/test', psqlController)
 
