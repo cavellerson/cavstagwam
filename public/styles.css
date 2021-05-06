@@ -217,6 +217,7 @@ input {
 .user-post-box {
     width: 30%;
     margin: 1em;
+    height: fit-content;
 }
 
 .user-post-box>img {
@@ -380,4 +381,35 @@ input {
 .notification-username:hover {
     text-decoration: underline;
     color: black;
+}
+
+.post-likes-comments {
+    width: 100%;
+    position: relative;
+    text-align: center;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-content: flex-end;
+    bottom: 0;
+    display: none;
+
+}
+#post-heart-icon, #post-chat-icon {
+    color: white;
+    font-size: 2vw;
+}
+
+.post-image {
+    width: 100%;
+}
+
+#post-likes, #comment-number {
+    color: white;
+    margin-right: 1vw;
+
+}
+
+.post-likes-comments>p {
+    display: inline;
 }

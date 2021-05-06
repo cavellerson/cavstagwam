@@ -60,10 +60,26 @@
                                 <a href="/posts/<%=currentUser%>/<%=post.post_id%>/edit"><ion-icon name="ellipsis-horizontal-outline"></ion-icon></a>
 
                         <% } %>
+                                <a href="/posts/<%=post.username%>/<%=post.post_id%>"><img  class="post-image" src="<%=post.image%>" alt="<%=post.image%>">
+                                    <div class="post-likes-comments">
+                                        <ion-icon id="post-heart-icon" name="heart"></ion-icon>
+                                        <span id="post-likes"><%=post.likes%></span>
 
-                                <img  class="post-image" src="<%=post.image%>" alt="<%=post.image%>">
-                                <!-- <p class="picture-text">hello</p> -->
-                            </div>
+                                            <% let commentNum = 0%>
+                                            <% for (let comment of allComments) { %>
+                                                <% if (comment.post_id === post.post_id) { %>
+                                                    <% commentNum++ %>
+                                                <% } %>
+                                            <% } %>
+                                            <ion-icon id="post-chat-icon" name="chatbubble"></ion-icon>
+                                            <span id="comment-number"><%=commentNum%></span>
+
+
+                                    </div>
+
+                                </a>
+
+                        </div>
 
                     <% } %>
                 </div>
@@ -79,16 +95,25 @@
 
         <script type="text/javascript">
             $('.picture-text').css('display','none')
-            $('.post-image').hover((event) => {
+            $('.user-post-box').hover((event) => {
 
-                $(event.target).css('filter', 'brightness(50%)')
-                $(event.target>'.picture-text').css('display', 'block')
+
+
+                //decreases brightness
+                $(event.currentTarget.children[1].children[0]).css('filter', 'brightness(50%)')
+                $(event.currentTarget.children[1].children[0]).css('display', 'block')
+                //shows the likes and comments number
+                $(event.currentTarget.children[1].children[1]).css('display', 'block')
+                console.log(event.currentTarget);
 
             },() => {
-                $(event.target).css('filter', 'none')
-                    $(event.target>'.picture-text').css('display', 'none')
+                //display none for the brightness
+                $(event.currentTarget.children[1].children[0]).css('filter', 'none')
+                //display none for comments and llikes
+                $(event.currentTarget.children[1].children[1]).css('display', 'none')
 
             })
+
         </script>
     </body>
 </html>

@@ -339,6 +339,14 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
             currentUserFollowList.push(entry["following"])
         }
 
+        //find all the comments of the user's profile
+        const queryForAllComments = await pool.query("SELECT * FROM comments WHERE username = $1",[req.params.username])
+        let allComments = []
+        for (let comment of queryForAllComments["rows"]) {
+            allComments.push(comment)
+        }
+        // console.log(queryForAllComments["rows"]);
+
         res.render('userProfile.ejs', {
             username: req.params.username,
             allPosts: allPosts,
@@ -351,7 +359,9 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
             allUsersList: allUsersList,
             allNotifications: allNotifications,
             thumbnailLinks: thumbnailLinks,
-            currentUserFollowList: currentUserFollowList
+            currentUserFollowList: currentUserFollowList,
+            allComments: allComments
+
 
 
         })
