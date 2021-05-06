@@ -45,12 +45,21 @@ posts.get('/create', isAuthenticated, async(req, res) => {
             thumbnailLinks.push({post_id:query.post_id,image:query.image})
         }
 
+        // gets all the followers of the req.session.currentUser[0]
+        let currentUserFollowList = []
+        const queryForPeopleIFollow = await pool.query("SELECT * FROM followers WHERE username = $1", [req.session.currentUser[0]])
+
+        for (let entry of queryForPeopleIFollow["rows"]) {
+            currentUserFollowList.push(entry["following"])
+        }
+
         res.render('createPost.ejs',
         {
             username: req.session.currentUser[0],
             allUsersList: allUsersList,
             allNotifications: allNotifications,
-            thumbnailLinks: thumbnailLinks
+            thumbnailLinks: thumbnailLinks,
+            currentUserFollowList: currentUserFollowList
         })
     } catch (error) {
         console.error(error)
@@ -87,12 +96,21 @@ posts.get('/createv2', isAuthenticated, async(req, res) => {
             thumbnailLinks.push({post_id:query.post_id,image:query.image})
         }
 
+        // gets all the followers of the req.session.currentUser[0]
+        let currentUserFollowList = []
+        const queryForPeopleIFollow = await pool.query("SELECT * FROM followers WHERE username = $1", [req.session.currentUser[0]])
+
+        for (let entry of queryForPeopleIFollow["rows"]) {
+            currentUserFollowList.push(entry["following"])
+        }
+
         res.render('createPostv2.ejs',
         {
             username:req.session.currentUser[0],
             allUsersList: allUsersList,
             allNotifications: allNotifications,
-            thumbnailLinks: thumbnailLinks
+            thumbnailLinks: thumbnailLinks,
+            currentUserFollowList: currentUserFollowList
         })
     } catch (error) {
         console.error(error)
@@ -243,13 +261,15 @@ posts.get('/:username/:id', isAuthenticated, async(req, res) => {
             listOfPostsUsersLiked.push(entry)
         }
 
-        // QUERY for people the user follows
+        // gets all the followers of the req.session.currentUser[0]
         let currentUserFollowList = []
         const queryForPeopleIFollow = await pool.query("SELECT * FROM followers WHERE username = $1", [req.session.currentUser[0]])
 
         for (let entry of queryForPeopleIFollow["rows"]) {
             currentUserFollowList.push(entry["following"])
         }
+
+
 
         res.render('postPage.ejs',{
             post: post,
@@ -260,7 +280,8 @@ posts.get('/:username/:id', isAuthenticated, async(req, res) => {
             thumbnailLinks: thumbnailLinks,
             listOfPostsUsersLiked: listOfPostsUsersLiked,
             currentUser: req.session.currentUser[0],
-            currentUserFollowList: currentUserFollowList
+            currentUserFollowList: currentUserFollowList,
+
 
         })
     } catch (err) {
@@ -301,13 +322,22 @@ posts.get('/:username/:id/edit', isAuthenticated, async(req, res) => {
             thumbnailLinks.push({post_id:query.post_id,image:query.image})
         }
 
+        // gets all the followers of the req.session.currentUser[0]
+        let currentUserFollowList = []
+        const queryForPeopleIFollow = await pool.query("SELECT * FROM followers WHERE username = $1", [req.session.currentUser[0]])
+
+        for (let entry of queryForPeopleIFollow["rows"]) {
+            currentUserFollowList.push(entry["following"])
+        }
+
 
         if (req.params.username === req.session.currentUser[0]) {
             res.render('editPost.ejs',{
                 post: post,
                 allUsersList: allUsersList,
                 allNotifications: allNotifications,
-                thumbnailLinks: thumbnailLinks
+                thumbnailLinks: thumbnailLinks,
+                currentUserFollowList: currentUserFollowList
             })
         } else {
             res.send("<h1> you don't have permission to update</h1>")

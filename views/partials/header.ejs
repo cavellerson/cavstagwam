@@ -49,14 +49,7 @@
 
                 <li>
 
-                    <!-- <div class="dropdown">
-                        <button type="button" id="dropdownMenuButton2"
-                        data-bs-toggle"dropdown"
-                        aria-expanded="false" name="button"><ion-icon name="notifications-outline"></ion-icon></button>
-                    </div>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                        <li>hello</li>
-                    </ul> -->
+
                     <div class="dropdown">
                         <button
                      type="button"
@@ -78,11 +71,33 @@
                                         photo.
                                     <% } else if (notification["action"] === "following") { %>
                                         started <%=notification["action"]%> you.
+
+
+
                                     <% }%>
 
                                     <div id="notification_date">                                    <%=notification["notification_date"].toDateString()%>
                                     </div>
+
+
+
                                     </div>
+                                    <% if (notification["action"] === "following") { %>
+                                        <% if (currentUserFollowList.includes(notification["current_session_user"])) { %>
+
+                                            <form class="like-form" action="/unfollow/<%=notification["current_session_user"]%>?_method=DELETE" method="POST">
+                                                <input id="action-buttons" class="btn btn-outline-danger" type="Submit" name="" value="Unfollow">
+                                            </form>
+                                        <% } else { %>
+                                            <form class="like-form" action="/follow/action/<%=notification["current_session_user"]%>" method="POST"
+                                            >
+                                                <input id="action-buttons" class="btn btn-outline-primary" type="Submit" name="" value="Follow">
+                                            </form>
+
+                                        <% } %>
+                                    <% } %>
+
+
                                     <% for (let entry of thumbnailLinks) { %>
                                         <% if (entry["post_id"] == notification["post_id"]) { %>
                                             <a href="/posts/<%=notification["username"]%>/<%=notification["post_id"]%>"><img class="thumbnailPic" src="<%=entry["image"]%>" alt=""></a>

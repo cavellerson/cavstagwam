@@ -61,6 +61,7 @@ home.get('/explore', isAuthenticated, async(req, res) => {
         });
 
         // console.log(listOfPostsUsersLiked);
+        // gets all the followers of the req.session.currentUser[0]
         let currentUserFollowList = []
         const queryForPeopleIFollow = await pool.query("SELECT * FROM followers WHERE username = $1", [req.session.currentUser[0]])
 
@@ -330,7 +331,13 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
         }
         // console.log("thumbnail array", thumbnailLinks);
 
+        // gets all the followers of the req.session.currentUser[0]
+        let currentUserFollowList = []
+        const queryForPeopleIFollow = await pool.query("SELECT * FROM followers WHERE username = $1", [req.session.currentUser[0]])
 
+        for (let entry of queryForPeopleIFollow["rows"]) {
+            currentUserFollowList.push(entry["following"])
+        }
 
         res.render('userProfile.ejs', {
             username: req.params.username,
@@ -343,7 +350,8 @@ home.get(`/:username`, isAuthenticated, async(req, res) => {
             renderPage: renderPage,
             allUsersList: allUsersList,
             allNotifications: allNotifications,
-            thumbnailLinks: thumbnailLinks
+            thumbnailLinks: thumbnailLinks,
+            currentUserFollowList: currentUserFollowList
 
 
         })

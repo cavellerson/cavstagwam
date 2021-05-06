@@ -50,12 +50,21 @@ lists.get('/followers/:username', isAuthenticated, async(req, res) => {
             thumbnailLinks.push({post_id:query.post_id,image:query.image})
         }
 
+        // gets all the followers of the req.session.currentUser[0]
+        let currentUserFollowList = []
+        const queryForPeopleIFollow = await pool.query("SELECT * FROM followers WHERE username = $1", [req.session.currentUser[0]])
+
+        for (let entry of queryForPeopleIFollow["rows"]) {
+            currentUserFollowList.push(entry["following"])
+        }
+
         res.render('followers.ejs', {
             followersList: followersList,
             username: req.params.username,
             allUsersList: allUsersList,
             allNotifications: allNotifications,
-            thumbnailLinks: thumbnailLinks
+            thumbnailLinks: thumbnailLinks,
+            currentUserFollowList: currentUserFollowList
         })
     } catch (err) {
         console.error(err.message)
@@ -98,12 +107,21 @@ lists.get('/following/:username', isAuthenticated, async(req, res) => {
             thumbnailLinks.push({post_id:query.post_id,image:query.image})
         }
 
+        // gets all the followers of the req.session.currentUser[0]
+        let currentUserFollowList = []
+        const queryForPeopleIFollow = await pool.query("SELECT * FROM followers WHERE username = $1", [req.session.currentUser[0]])
+
+        for (let entry of queryForPeopleIFollow["rows"]) {
+            currentUserFollowList.push(entry["following"])
+        }
+
         res.render('following.ejs', {
             followingList: followingList,
             username: req.params.username,
             allUsersList: allUsersList,
             allNotifications: allNotifications,
-            thumbnailLinks
+            thumbnailLinks: thumbnailLinks,
+            currentUserFollowList: currentUserFollowList
         })
     } catch (err) {
         console.error(err.message)
