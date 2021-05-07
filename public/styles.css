@@ -413,3 +413,9 @@ input {
 .post-likes-comments>p {
     display: inline;
 }
+
+.post-likes, .post-comments {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

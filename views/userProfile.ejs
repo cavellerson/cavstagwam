@@ -62,17 +62,22 @@
                         <% } %>
                                 <a href="/posts/<%=post.username%>/<%=post.post_id%>"><img  class="post-image" src="<%=post.image%>" alt="<%=post.image%>">
                                     <div class="post-likes-comments">
-                                        <ion-icon id="post-heart-icon" name="heart"></ion-icon>
-                                        <span id="post-likes"><%=post.likes%></span>
+                                        <div class="post-likes">
+                                            <ion-icon id="post-heart-icon" name="heart"></ion-icon>
+                                            <span id="post-likes"><%=post.likes%></span>
 
-                                            <% let commentNum = 0%>
-                                            <% for (let comment of allComments) { %>
-                                                <% if (comment.post_id === post.post_id) { %>
-                                                    <% commentNum++ %>
+                                                <% let commentNum = 0%>
+                                                <% for (let comment of allComments) { %>
+                                                    <% if (comment.post_id === post.post_id) { %>
+                                                        <% commentNum++ %>
+                                                    <% } %>
                                                 <% } %>
-                                            <% } %>
+                                        </div>
+                                        <div class="post-comments">
                                             <ion-icon id="post-chat-icon" name="chatbubble"></ion-icon>
                                             <span id="comment-number"><%=commentNum%></span>
+                                        </div>
+
 
 
                                     </div>
@@ -103,8 +108,8 @@
                 $(event.currentTarget.children[1].children[0]).css('filter', 'brightness(50%)')
                 $(event.currentTarget.children[1].children[0]).css('display', 'block')
                 //shows the likes and comments number
-                $(event.currentTarget.children[1].children[1]).css('display', 'block')
-                console.log(event.currentTarget);
+                $(event.currentTarget.children[1].children[1]).css('display', 'flex')
+                // console.log(event.currentTarget);
 
             },() => {
                 //display none for the brightness
