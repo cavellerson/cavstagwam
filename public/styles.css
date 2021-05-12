@@ -15,6 +15,9 @@
     z-index: 999;
 }
 
+body {
+    z-index: 998;
+}
 
 ul {
     list-style-type: none;
@@ -416,9 +419,123 @@ input {
     align-items: center;
 }
 
-/* @media screen and (max-width: 1024px) {
+.mobile-header {
+    display: none;
+}
+.mobile-footer {
+    display: none;
+}
+
+@media screen and (max-width: 1024px) {
     .header {
         display: none;
     }
-    .header-
-} */
+
+
+    .mobile-header {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+        font-size: 4vh;
+        position: fixed;
+        top: 0px;
+        width: 100%;
+        padding: .5vh;
+        border-bottom: 1px rgba(219,219,219,1) solid;
+        height: 8vh;
+        background-color: rgba(255,255,255,1);
+        z-index: 999;
+    }
+
+    .mobile-footer {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+        font-size: 4vh;
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
+        border-top: 1px rgba(219,219,219,1) solid;
+        height: 8vh;
+        background-color: rgba(255,255,255,1);
+    }
+
+    .mobile-footer .navigation {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+    }
+
+    .mobile-footer {
+        height: 7vh;
+    }
+
+    .dropdown-menu {
+        width: 40vw;
+    }
+
+    .dropdown-menu>li>a {
+        font-size: 2.5vh;
+    }
+
+    .postBox {
+        width: 100%;
+    }
+
+    .thumbnailPic {
+        width: 10vw;
+    }
+
+    .create-post-box>form {
+        width: 70%;
+        font-size: 2.5vh;
+    }
+
+    .greeting {
+        margin-top: 0;
+        padding-top: 0;
+        font-size: 5vh;
+    }
+
+    #submit-button {
+        font-size: 2vh;
+    }
+
+    div.modal-content {
+        font-size: 2vh;
+        width: 100%;
+    }
+
+    h5 {
+        font-size: 2vh;
+    }
+
+    button#likes {
+        font-size: 2vh;
+    }
+
+    .unlike-button, .like-button {
+        font-size: 5vh;
+    }
+
+    a#username {
+        font-size: 1.5vh;
+    }
+
+    .user-profile {
+        width: 100%;
+    }
+
+    .all-posts {
+        justify-content: none;
+    }
+    .user-post-box {
+        width: 33%;
+        margin: 0;
+    }
+
+    .username-info-box {
+        font-size: 2vh;
+    }
+
+}

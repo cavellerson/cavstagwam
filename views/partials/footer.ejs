@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <div class="mobile-footer">
+            <ul class="navigation">
+                <li><a href="/"><ion-icon name="home-outline"></ion-icon></a></li>
+                <li><a href="/explore"><ion-icon name="compass-outline"></ion-icon></a></li>
+                <li>
+                    <div >
+                        <a href="/posts/create">
+                            <ion-icon name="create-outline"></ion-icon>
+                        </a>
+                    </div>
+
+                </li>
+
+                <li>
+                    <div class="dropdown">
+                        <ion-icon  type="button"
+                            id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            name="notifications-outline">
+                        </ion-icon>
+                        <ul
+                        class="dropdown-menu notification-drop-down" aria-labelledby="dropdownMenuButton1">
+                            <% for (let notification of allNotifications) { %>
+                                <li class="notification-entry">
+                                    <div class="left-notification">
+                                    <a class="notification-username" href="/<%=notification["current_session_user"]%>"><%=notification["current_session_user"]%></a>
+                                    <% if (notification["action"] === "liked") { %>
+                                        <%=notification["action"]%> your
+                                        photo.
+                                    <% } else if (notification["action"] === "following") { %>
+                                        started <%=notification["action"]%> you.
+
+
+
+                                    <% }%>
+
+                                    <div id="notification_date">                                    <%=notification["notification_date"].toDateString()%>
+                                    </div>
+
+
+
+                                    </div>
+                                    <% if (notification["action"] === "following") { %>
+                                        <% if (currentUserFollowList.includes(notification["current_session_user"])) { %>
+
+                                            <form class="like-form" action="/unfollow/<%=notification["current_session_user"]%>?_method=DELETE" method="POST">
+                                                <input id="action-buttons" class="btn btn-outline-danger" type="Submit" name="" value="Unfollow">
+                                            </form>
+                                        <% } else { %>
+                                            <form class="like-form" action="/follow/action/<%=notification["current_session_user"]%>" method="POST"
+                                            >
+                                                <input id="action-buttons" class="btn btn-outline-primary" type="Submit" name="" value="Follow">
+                                            </form>
+
+                                        <% } %>
+                                    <% } %>
+
+
+                                    <% for (let entry of thumbnailLinks) { %>
+                                        <% if (entry["post_id"] == notification["post_id"]) { %>
+                                            <a href="/posts/<%=notification["username"]%>/<%=notification["post_id"]%>"><img class="thumbnailPic" src="<%=entry["image"]%>" alt=""></a>
+                                        <% } %>
+
+
+                                    <% } %>
+                                </li>
+                            <% } %>
+                    </div>
+                </li>
+
+                <li>
+
+                    <div class="dropdown">
+                        <ion-icon  type="button"
+                            id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            name="person-circle-outline"></ion-icon></a>
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                            <li><form action="/sessions?_method=DELETE" method="post">
+                                <button id="logout" class="dropdown-item"
+                                type="submit" name="button"><ion-icon name="log-out-outline"></ion-icon></button>
+
+                            </form></li>
+                        </ul>
+                    </div>
+
+                </li>
+
+
+            </ul>
+    </body>
+</html>
