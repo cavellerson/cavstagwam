@@ -11,7 +11,6 @@ const fileUpload = require('express-fileupload');
 app.use(cors());
 app.use(express.json()); // allows access to req.body
 app.use(express.static('public'))
-app.use(express.urlencoded({ extended: false }))
 app.use(methodOverride('_method'))
 
 app.use(

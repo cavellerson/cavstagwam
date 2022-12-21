@@ -352,7 +352,7 @@ posts.get('/:username/:id/edit', isAuthenticated, async(req, res) => {
 // update/edit a post
 posts.put('/:id', isAuthenticated, async(req, res) => {
     try {
-        const id = req.params.id
+        const id = parseInt(req.params.id)
         const description = req.body.description
         const updatePost = await pool.query("UPDATE posts SET description = $1 WHERE post_id = $2", [description, id])
 

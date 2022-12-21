@@ -249,7 +249,7 @@ input {
     padding: .5vh;
 }
 
-.like-button:hover {
+.like-icon:hover {
     color:red;
 }
 
@@ -514,7 +514,7 @@ input {
         font-size: 2vh;
     }
 
-    .unlike-button, .like-button {
+    .unlike-button, .like-icon {
         font-size: 5vh;
     }
 

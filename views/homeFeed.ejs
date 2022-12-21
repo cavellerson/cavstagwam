@@ -10,7 +10,7 @@
     <body>
         <%- include ('./partials/header.ejs') %>
         <% for (let post of posts) { %>
-            <div class="postBox">
+            <div class="postBox" data-postid="<%=post.post_id%>" data-postusername="<%=post.username%>">
                 <div class="postHead">
                     <a id="username" href="/<%=post.username%>"><%=post.username%></a>
                 </div>
@@ -22,21 +22,26 @@
                     <% if (allLikes.includes(post.post_id)) { %>
 
 
-                        <form class=""
+                        <!-- <form class=""
                         action="/action/unlike/<%=post.username%>/<%=post.post_id%>?"
                         method="POST">
                             <button type="submit" name="button"
                             class="unlike-button"><ion-icon name="heart-dislike"></ion-icon></button>
-                        </form>
+                        </form> -->
+                        <button id="<%=post.post_id%>" name="button"
+                        class="unlike-button"><ion-icon id="ion-<%=post.post_id%>" name="heart-dislike"></ion-icon></button>
 
                     <% } else { %>
-                        <form class=""
+                        <!-- <form class=""
                         action="/action/like/<%=post.username%>/<%=post.post_id%>?"
-                        method="POST">
+                        method="POST"> -->
 
-                            <button type="submit" name="button"><ion-icon class="like-button" name="heart-outline"></ion-icon></button>
+                            <!-- <button type="submit" name="button" class="like-button"><ion-icon class="like-icon" name="heart-outline"></ion-icon></button> -->
 
-                        </form>
+                        <!-- </form> -->
+
+                        <button id=">%=post.post_id%>" name="button" class="like-button"><ion-icon id="ion-<%=post.post_id%>" class="like-icon" name="heart-outline"></ion-icon></button>
+
 
 
                     <% } %>
@@ -115,28 +120,50 @@
 
         <script type="text/javascript">
 
+        $('.like-button').on('click', (event) => {
 
 
+            let postID = event.target.parentNode["parentNode"]["parentNode"]["dataset"]["postid"]
+            let postUsername = event.target.parentNode["parentNode"]["parentNode"]["dataset"]["postusername"]
+
+            $.ajax({
+                type: "POST",
+                url: `/action/like`,
+                data: {postID: postID, postUsername: postUsername }
+            }).done((data) => {
+                $(`#ion-${postID}`).attr('name', "heart-dislike")
+                $(`#${postID}`).attr('class','unlike-button')
+                $(`#ion-${postID}`).attr('aria-label', 'heart dislike')
+
+                console.log("liked");
+            }).fail(() => {
+
+            })
+
+        })
+        $('.unlike-button').on('click', (event) => {
+
+            let postID = event.target.parentNode["parentNode"]["parentNode"]["dataset"]["postid"]
+            let postUsername = event.target.parentNode["parentNode"]["parentNode"]["dataset"]["postusername"]
 
 
-        // console.log(<%=posts%>);
+            $.ajax({
+                type: "POST",
+                url: `/action/unlike`,
+                data: {postID: postID, postUsername: postUsername }
+            }).done((data) => {
+                // $(`#postID>ion-icon`).attr('name', 'heart-outline')
+                $(`#ion-${postID}`).attr('name', "heart-outline")
+                $(`#${postID}`).attr('class','like-button')
+                $(`#ion-${postID}`).attr('aria-label', 'heart outline')
+                console.log("unliked");
+            }).fail(() => {
+                alert('failed, try again')
+            })
 
-        // $('.like-button').on('click', (event) => {
-        //     console.log(event.currentTarget);
-        //     // $.ajax({
-        //     //     method: "POST",
-        //     //     url: `/posts/like/${username}/${postID}`
-        //     //     data: { username: username, postID: postID}
-        //     // }),
-        //     // success:(data) => {
-        //     //     console.log(data);
-        //     // },
-        //     // error:(error) => {
-        //     //     console.log(error);
-        //     // }
-        // })
-        //     // console.log("username", username);
-        //     // console.log("postID", postID);
+
+        })
+
         </script>
     </body>
 </html>
